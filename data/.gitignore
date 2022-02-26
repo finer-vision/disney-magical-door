@@ -1,2 +1,3 @@
-codes.csv
-database.sqlite
+*
+!.gitignore
+!codes.csv.gpg
