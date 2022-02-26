@@ -1,11 +1,10 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
 import { AppReset, AppWrapper } from "@/components/app/styles";
 import socket from "@/services/socket";
 
-const Home = React.lazy(() => import("@/pages/home/home"));
-
 export default function App() {
+  const [video, setVideo] = React.useState("loop");
+
   React.useEffect(() => {
     function onData() {
       console.log("onData");
@@ -21,9 +20,7 @@ export default function App() {
     <React.Suspense fallback="Loading...">
       <AppReset />
       <AppWrapper>
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
+        <video src={`/assets/${video}.mp4`} muted autoPlay playsInline loop />
       </AppWrapper>
     </React.Suspense>
   );
