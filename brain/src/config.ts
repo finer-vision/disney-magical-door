@@ -9,6 +9,12 @@ export default {
     root: rootPath,
     data: path.join(rootPath, "data"),
   },
+  server: {
+    port: 3000,
+  },
+  client: {
+    port: 8080,
+  },
   database: {
     dialect: "sqlite" as Dialect,
     storage: path.resolve(__dirname, "..", "..", "data", "database.sqlite"),
