@@ -6,8 +6,8 @@ export default function App() {
   const [video, setVideo] = React.useState("loop");
 
   React.useEffect(() => {
-    function onData() {
-      console.log("onData");
+    function onData(data: any) {
+      setVideo(data.video);
     }
 
     socket.on("data", onData);

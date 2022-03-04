@@ -19,4 +19,6 @@ const socket = new Server({
   },
 });
 
+socket.listen(server);
+
 export { app, server, socket };

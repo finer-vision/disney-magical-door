@@ -18,3 +18,11 @@ Start Project in development mode:
 npm install
 npm start
 ```
+
+### Arduino UNO Setup
+
+1. [Download Arduino IDE](https://www.arduino.cc/en/software)
+2. Connect Arduino to machine
+3. Open the Arduino IDE
+4. Select: File > Examples > Firmata > StandardFirmataPlus
+5. Click "Upload" icon

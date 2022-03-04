@@ -1,6 +1,8 @@
 import database, { importCodes } from "./services/database";
-import { server, socket } from "./services/app";
+import { socket } from "./services/app";
 import config from "./config";
+import Lock from "./services/lock";
+import QrScanner from "./services/qr-scanner";
 
 (async () => {
   try {
@@ -8,10 +10,19 @@ import config from "./config";
 
     await importCodes();
 
-    socket.listen(server);
+    const lock = new Lock();
+    const qrScanner = new QrScanner();
 
-    socket.on("connection", () => {
-      console.log("connection");
+    socket.on("connection", (socket) => {
+      qrScanner.onScan((code) => {
+        if (code === "X000SFH6PH") {
+          socket.emit("data", { video: "win" });
+          lock.unlock(5000);
+        } else {
+          socket.emit("data", { video: "loop" });
+          lock.lock();
+        }
+      });
     });
 
     console.log(`Server running at http://localhost:${config.server.port}`);
