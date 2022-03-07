@@ -2,6 +2,7 @@ import * as path from "node:path";
 import { Dialect } from "sequelize";
 import Code from "../entities/code";
 import WinTime from "../entities/win-time";
+import adminCodes from "./admin-codes";
 
 const rootPath = path.resolve(__dirname, "..", "..", "..");
 
@@ -33,6 +34,7 @@ const config = {
       maxWinners: 10,
     },
   ],
+  adminCodes,
 };
 
 export default config;

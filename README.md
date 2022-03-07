@@ -42,3 +42,9 @@ If you want to generate a QR code image, run this:
 ```shell
 npx --prefix server/ qrcode -w 1024 -o data/g5820f88ggbc21e4.svg g5820f88ggbc21e4
 ```
+
+### TODO
+
+- [ ] Admin codes
+- [ ] Automated EOD email to client with winning codes
+- [ ] LED RGB lights fired when QR code is scanned

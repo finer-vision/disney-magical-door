@@ -4,6 +4,7 @@ import Code from "../entities/code";
 import Lock from "../services/lock";
 import config from "../config/config";
 import WinTime from "../entities/win-time";
+import adminCodes from "../config/admin-codes";
 
 async function isWin(code: Code): Promise<boolean> {
   if (code.guaranteedWin) return true;
@@ -30,6 +31,23 @@ type Scan = {
 export default function scan(socket: Socket) {
   return async (scan: Scan) => {
     try {
+      const adminCode = adminCodes.find((adminCode) => {
+        return adminCode.code === scan.code;
+      });
+
+      if (adminCode) {
+        switch (adminCode.id) {
+          case "reset-door":
+            lock.lock();
+            socket.emit("data", { winner: false });
+            break;
+          case "open-door":
+            lock.unlock();
+            break;
+        }
+        return;
+      }
+
       const matchingCode = await Code.findOne({
         where: {
           code: scan.code,
