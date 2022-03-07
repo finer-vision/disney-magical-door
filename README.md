@@ -18,7 +18,7 @@ Start Project in development mode:
 
 ```shell
 npm install
-npm --prefix server run cli seed-database
+npm --prefix server run seed-database
 npm start
 ```
 
