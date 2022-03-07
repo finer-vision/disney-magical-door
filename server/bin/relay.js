@@ -4,7 +4,6 @@ const board = new Board();
 board.on("ready", () => {
   const relay = new Relay(10);
   setInterval(() => {
-    console.log(relay.isOn ? "ON" : "OFF");
     relay.toggle();
   }, 1000);
 });
