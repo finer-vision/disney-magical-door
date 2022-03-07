@@ -1,6 +1,6 @@
 import database from "./services/database";
 import { socket } from "./services/app";
-import config from "./config";
+import config from "./config/config";
 import scan from "./actions/scan";
 
 (async () => {

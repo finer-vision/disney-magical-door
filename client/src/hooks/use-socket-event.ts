@@ -1,7 +1,10 @@
 import React from "react";
 import socket from "@/services/socket";
 
-export default function useSocketEvent(event: string, fn: (data: any) => void) {
+export default function useSocketEvent<Data>(
+  event: string,
+  fn: (data: Data) => void
+) {
   React.useEffect(() => {
     socket.on(event, fn);
     return () => {

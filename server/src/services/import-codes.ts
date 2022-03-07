@@ -1,6 +1,6 @@
 import * as path from "node:path";
 import * as fs from "node:fs/promises";
-import config from "../config";
+import config from "../config/config";
 import Code from "../entities/code";
 import WinTime from "../entities/win-time";
 

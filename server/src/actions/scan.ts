@@ -2,7 +2,7 @@ import { Socket } from "socket.io";
 import { Op } from "sequelize";
 import Code from "../entities/code";
 import Lock from "../services/lock";
-import config from "../config";
+import config from "../config/config";
 import WinTime from "../entities/win-time";
 
 async function isWin(code: Code): Promise<boolean> {
@@ -23,16 +23,23 @@ async function isWin(code: Code): Promise<boolean> {
 
 const lock = new Lock();
 
+type Scan = {
+  code: string;
+};
+
 export default function scan(socket: Socket) {
-  return async (code: string) => {
+  return async (scan: Scan) => {
     try {
       const matchingCode = await Code.findOne({
-        where: { code, used: false },
+        where: {
+          code: scan.code,
+          used: false,
+        },
       });
 
       // Invalid code used
       if (!matchingCode) {
-        socket.emit("data", { video: "loop" });
+        socket.emit("data", { winner: false });
         lock.lock();
         return;
       }
@@ -40,8 +47,9 @@ export default function scan(socket: Socket) {
       // Valid code used
       const winner = await isWin(matchingCode);
       await matchingCode.update({ used: true, winner, usedAt: new Date() });
+      socket.emit("data", { winner });
+
       if (winner) {
-        socket.emit("data", { video: "win" });
         lock.unlock(config.lock.timeout);
       }
     } catch (err) {

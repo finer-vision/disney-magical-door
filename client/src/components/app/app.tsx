@@ -6,12 +6,15 @@ import socket from "@/services/socket";
 
 export default function App() {
   const [video, setVideo] = React.useState("loop");
-  useSocketEvent("data", (data) => setVideo(data.video));
+  useSocketEvent<{ winner: boolean }>("data", (data) => {
+    setVideo(data.winner ? "win" : "loop");
+  });
 
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const onChange = useChangeEvent<HTMLInputElement>((event) => {
-    socket.emit("scan", event.target.value);
+    const code = event.target.value;
+    socket.emit("scan", { code });
     event.target.value = "";
   }, []);
 
