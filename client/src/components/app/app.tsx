@@ -11,7 +11,7 @@ export default function App() {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const onChange = useChangeEvent<HTMLInputElement>((event) => {
-    socket.emit("code", event.target.value);
+    socket.emit("scan", event.target.value);
     event.target.value = "";
   }, []);
 

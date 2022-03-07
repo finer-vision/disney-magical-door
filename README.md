@@ -1,6 +1,6 @@
 # Disney Magical Door
 
-Brain and client for the Disney experiential door event.
+Server and client for the Disney experiential door event.
 
 ### Getting Started
 
