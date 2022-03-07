@@ -1,5 +1,5 @@
 import * as os from "os";
-import { launch } from "puppeteer-core";
+import * as puppeteer from "puppeteer-core";
 import database from "./services/database";
 import { socket } from "./services/app";
 import config from "./config/config";
@@ -8,8 +8,6 @@ import scan from "./actions/scan";
 const executablePaths: { [key: string]: string } = {
   darwin: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
   linux: "/usr/bin/google-chrome",
-  win32: "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
-  win64: "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
 };
 
 const args = [
@@ -19,12 +17,16 @@ const args = [
   "--disable-pinch",
   "--no-default-check",
   "--overscroll-history-navigation=0",
-  `--app=http://localhost:${config.server.port}`,
+  `--app=http://localhost:${config.client.port}`,
   "--kiosk",
 ];
 
 (async () => {
   try {
+    if (executablePaths[os.platform()]) {
+      throw new Error("This app is not supported on the current OS");
+    }
+
     await database.sync();
 
     socket.on("connection", (socket) => {
@@ -33,7 +35,7 @@ const args = [
 
     console.log(`Server running at http://localhost:${config.server.port}`);
 
-    const browser = await launch({
+    const browser = await puppeteer.launch({
       headless: false,
       args,
       executablePath: executablePaths[os.platform()],
