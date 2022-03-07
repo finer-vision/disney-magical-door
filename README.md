@@ -26,3 +26,11 @@ npm start
 3. Open the Arduino IDE
 4. Select: File > Examples > Firmata > StandardFirmataPlus
 5. Click "Upload" icon
+
+### Generating QR codes
+
+If you want to generate a QR code image, run this:
+
+```shell
+npx --prefix server/ qrcode -w 1024 -o data/g5820f88ggbc21e4.svg g5820f88ggbc21e4
+```
