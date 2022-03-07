@@ -23,7 +23,6 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.3",
-    "iohook": "^0.9.3",
     "johnny-five": "^2.1.0",
     "node-hid": "^2.1.1",
     "reflect-metadata": "^0.1.13",
