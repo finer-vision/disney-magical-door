@@ -4,18 +4,21 @@ Server and client for the Disney experiential door event.
 
 ### Getting Started
 
-Unlock `codes.csv`:
+Decrypt `codes.csv` and `guaranteed-win-codes.csv`:
 
-> Replace `secret` passphrase with the actual password (stored in Finer Vision's 1Password vault).
+> Note: replace "secret" with passphrases stored in 1Password shared vault,
+> under "Disney Magical Door Codes"
 
 ```shell
 gpg --pinentry-mode=loopback --passphrase "secret" -d data/codes.csv.gpg > data/codes.csv
+gpg --pinentry-mode=loopback --passphrase "secret" -d data/guaranteed-win-codes.csv.gpg > data/guaranteed-win-codes.csv
 ```
 
 Start Project in development mode:
 
 ```shell
 npm install
+npm --prefix server run cli seed-database
 npm start
 ```
 

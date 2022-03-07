@@ -1,4 +1,4 @@
-import database, { importCodes } from "./services/database";
+import database from "./services/database";
 import { socket } from "./services/app";
 import config from "./config";
 import scan from "./actions/scan";
@@ -6,7 +6,6 @@ import scan from "./actions/scan";
 (async () => {
   try {
     await database.sync();
-    await importCodes();
 
     socket.on("connection", (socket) => {
       socket.on("scan", scan(socket));
