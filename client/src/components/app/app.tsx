@@ -12,10 +12,19 @@ export default function App() {
 
   const inputRef = React.useRef<HTMLInputElement>(null);
 
+  const [value, setValue] = React.useState("");
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      console.log(value);
+    }, 250);
+    return () => clearTimeout(timeout);
+  }, [value]);
+
   const onChange = useChangeEvent<HTMLInputElement>((event) => {
-    const code = event.target.value;
-    socket.emit("scan", { code });
-    event.target.value = "";
+    // const code = event.target.value;
+    // socket.emit("scan", { code });
+    // event.target.value = "";
   }, []);
 
   React.useEffect(() => {

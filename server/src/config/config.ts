@@ -6,6 +6,7 @@ import WinTime from "../entities/win-time";
 const rootPath = path.resolve(__dirname, "..", "..", "..");
 
 const config = {
+  env: process.env.NODE_ENV,
   paths: {
     root: rootPath,
     data: path.join(rootPath, "data"),

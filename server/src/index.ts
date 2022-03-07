@@ -18,8 +18,11 @@ const args = [
   "--no-default-check",
   "--overscroll-history-navigation=0",
   `--app=http://localhost:${config.client.port}`,
-  "--kiosk",
 ];
+
+if (config.env === "production") {
+  args.push("--kiosk");
+}
 
 (async () => {
   try {
