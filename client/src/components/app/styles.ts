@@ -26,6 +26,15 @@ export const AppWrapper = styled.main`
   display: flex;
   place-items: center;
   place-content: center;
+  position: relative;
+
+  input[type="text"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
 
   video {
     aspect-ratio: 1080 / 1920;

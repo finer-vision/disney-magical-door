@@ -1,18 +1,40 @@
 import React from "react";
 import { AppReset, AppWrapper } from "@/components/app/styles";
+import useSocketEvent from "@/hooks/use-socket-event";
+import useChangeEvent from "@/hooks/use-change-event";
 import socket from "@/services/socket";
 
 export default function App() {
   const [video, setVideo] = React.useState("loop");
+  useSocketEvent("data", (data) => setVideo(data.video));
+
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  const onChange = useChangeEvent<HTMLInputElement>((event) => {
+    socket.emit("code", event.target.value);
+    event.target.value = "";
+  }, []);
 
   React.useEffect(() => {
-    function onData(data: any) {
-      setVideo(data.video);
+    const input = inputRef.current;
+    if (input === null) return;
+    input.focus();
+
+    function onFocus() {
+      if (input === null) return;
+      input.focus();
     }
 
-    socket.on("data", onData);
+    function onBlur() {
+      if (input === null) return;
+      input.focus();
+    }
+
+    window.addEventListener("focus", onFocus);
+    input.addEventListener("blur", onBlur);
     return () => {
-      socket.off("data", onData);
+      window.removeEventListener("focus", onFocus);
+      input.removeEventListener("blur", onBlur);
     };
   }, []);
 
@@ -21,6 +43,7 @@ export default function App() {
       <AppReset />
       <AppWrapper>
         <video src={`/assets/${video}.mp4`} muted autoPlay playsInline loop />
+        <input ref={inputRef} type="text" onChange={onChange} />
       </AppWrapper>
     </React.Suspense>
   );

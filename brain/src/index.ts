@@ -2,7 +2,7 @@ import database, { importCodes } from "./services/database";
 import { socket } from "./services/app";
 import config from "./config";
 import Lock from "./services/lock";
-import QrScanner from "./services/qr-scanner";
+import Code from "./entities/code";
 
 (async () => {
   try {
@@ -11,17 +11,24 @@ import QrScanner from "./services/qr-scanner";
     await importCodes();
 
     const lock = new Lock();
-    const qrScanner = new QrScanner();
 
     socket.on("connection", (socket) => {
-      qrScanner.onScan((code) => {
-        if (code === "X000SFH6PH") {
-          socket.emit("data", { video: "win" });
-          lock.unlock(5000);
-        } else {
+      socket.on("code", async (code: string) => {
+        const matchingCode = await Code.findOne({
+          where: { code, used: false },
+        });
+
+        // Lose
+        if (!matchingCode) {
           socket.emit("data", { video: "loop" });
           lock.lock();
+          return;
         }
+
+        // Win
+        await matchingCode.update({ used: true, usedAt: new Date() });
+        socket.emit("data", { video: "win" });
+        lock.unlock(5000);
       });
     });
 
