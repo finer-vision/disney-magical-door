@@ -42,7 +42,7 @@ export default function scan(socket: Socket) {
             socket.emit("data", { winner: false });
             break;
           case "open-door":
-            lock.unlock();
+            lock.unlock(config.lock.timeout);
             break;
         }
         return;
