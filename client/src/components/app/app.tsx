@@ -22,6 +22,7 @@ export default function App() {
   }, [value]);
 
   const onChange = useChangeEvent<HTMLInputElement>((event) => {
+    setValue(event.target.value);
     // const code = event.target.value;
     // socket.emit("scan", { code });
     // event.target.value = "";
