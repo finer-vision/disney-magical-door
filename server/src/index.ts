@@ -23,7 +23,7 @@ const args = [
 
 (async () => {
   try {
-    if (executablePaths[os.platform()]) {
+    if (!executablePaths[os.platform()]) {
       throw new Error("This app is not supported on the current OS");
     }
 
