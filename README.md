@@ -18,7 +18,7 @@ Start Project in development mode:
 
 ```
 # Only on Ubuntu
-sudo apt install -y build-essential
+sudo apt install -y nodejs-legacy build-essential
 ```
 
 ```shell

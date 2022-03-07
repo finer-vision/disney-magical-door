@@ -2,7 +2,6 @@ import * as path from "node:path";
 import * as fs from "node:fs/promises";
 import config from "../config/config";
 import Code from "../entities/code";
-import WinTime from "../entities/win-time";
 
 export default async function importCodes() {
   const codesFile = path.join(config.paths.data, "codes.csv");
@@ -59,22 +58,6 @@ export default async function importCodes() {
       console.error(
         "Failed to import codes because codes.csv or guaranteed-win-codes.csv don't exist in data directory"
       );
-    }
-  }
-
-  if ((await WinTime.count()) > 0) {
-    console.log("Win times imported, skipping import");
-  } else {
-    console.log("Importing win times...");
-    try {
-      await WinTime.bulkCreate(
-        config.winTimes.map((winTime) => {
-          return { timestamp: winTime };
-        })
-      );
-      console.log("Win times imported");
-    } catch (err) {
-      console.error(err);
     }
   }
 }

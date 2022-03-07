@@ -2,7 +2,6 @@ import * as path from "node:path";
 import { Dialect } from "sequelize";
 import Code from "../entities/code";
 import WinTime from "../entities/win-time";
-import winTimes from "./win-times";
 
 const rootPath = path.resolve(__dirname, "..", "..", "..");
 
@@ -25,7 +24,14 @@ const config = {
   lock: {
     timeout: 5000,
   },
-  winTimes,
+  events: [
+    // Test
+    {
+      start: new Date("2022-03-07 09:00:00 +00:00"),
+      end: new Date("2022-03-07 19:00:00 +00:00"),
+      maxWinners: 10,
+    },
+  ],
 };
 
 export default config;

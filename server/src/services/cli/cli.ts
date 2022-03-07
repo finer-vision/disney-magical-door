@@ -1,4 +1,5 @@
 import seedDatabase from "./seed-database";
+import generateWinTimes from "./generate-win-times";
 
 (async () => {
   try {
@@ -6,6 +7,9 @@ import seedDatabase from "./seed-database";
     switch (command) {
       case "seedDatabase":
         await seedDatabase();
+        break;
+      case "generateWinTimes":
+        await generateWinTimes();
         break;
       default:
         console.error(`No command found "${command}"`);
