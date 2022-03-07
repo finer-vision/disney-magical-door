@@ -14,18 +14,21 @@ export default function App() {
 
   const [value, setValue] = React.useState("");
 
+  // @note the QR scanner inputs one character at a time,
+  // this effect collects all characters then fires the code
+  // off to the server when finished
   React.useEffect(() => {
+    const input = inputRef.current;
+    if (input === null) return;
     const timeout = setTimeout(() => {
-      console.log(value);
+      socket.emit("scan", { code: value });
+      input.value = "";
     }, 250);
     return () => clearTimeout(timeout);
   }, [value]);
 
   const onChange = useChangeEvent<HTMLInputElement>((event) => {
     setValue(event.target.value);
-    // const code = event.target.value;
-    // socket.emit("scan", { code });
-    // event.target.value = "";
   }, []);
 
   React.useEffect(() => {
