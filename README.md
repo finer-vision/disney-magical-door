@@ -16,6 +16,11 @@ gpg --pinentry-mode=loopback --passphrase "secret" -d data/guaranteed-win-codes.
 
 Start Project in development mode:
 
+```
+# Only on Ubuntu
+sudo apt install -y build-essential
+```
+
 ```shell
 npm install
 npm --prefix server run seed-database
