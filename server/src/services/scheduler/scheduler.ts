@@ -33,6 +33,7 @@ export default function scheduler() {
 
   if (!isEventHappening(closestEvent)) {
     console.info("Not currently in an event; scheduled tasks won't run");
+    return;
   }
 
   const sendEndOfDayReportDate = new Date(closestEvent.end);
