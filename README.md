@@ -2,6 +2,14 @@
 
 Server and client for the Disney experiential door event.
 
+### Generating Win Times
+
+This will generate random win times for all events and encrypt them into this file `data/win-times.csv.gpg`:
+
+```shell
+npm --prefix server/ run generateEncryptedWinTimesCsv
+```
+
 ### Arduino UNO Setup
 
 1. [Download Arduino IDE](https://www.arduino.cc/en/software)
@@ -51,14 +59,6 @@ npm install
 npm run build
 npm --prefix server run reset
 pm2 start /home/fv/apps/disney-magical-door/ecosystem.config.js
-```
-
-### Generating Win Times
-
-This will generate random win times for all events and encrypt them into this file `data/win-times.csv.gpg`:
-
-```shell
-npm --prefix server/ run generateEncryptedWinTimesCsv
 ```
 
 ### Generating QR codes

@@ -45,6 +45,6 @@ export default async function generateEncryptedWinTimesCsv() {
   );
 
   execSync(
-    `gpg -c --batch --passphrase ${config.passphrases.winTimes} ${winTimePath}`
+    `gpg -c --batch --passphrase ${config.passphrases.winTimes} --yes ${winTimePath}`
   );
 }
