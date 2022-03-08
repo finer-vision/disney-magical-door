@@ -10,8 +10,11 @@ const executablePaths: { [key: string]: string } = {
   linux: "/usr/bin/google-chrome",
 };
 
+const aspect = 1080 / 1920;
+const height = 900;
+const width = Math.floor(height * aspect);
+
 const args = [
-  "--disable-web-security",
   "--remote-debugging-port=9222",
   "--no-first-run",
   "--disable-pinch",
@@ -22,6 +25,10 @@ const args = [
 
 if (config.env === "production") {
   args.push("--kiosk");
+}
+
+if (config.env === "development") {
+  args.push(`--window-size=${width},${height}`);
 }
 
 (async () => {
@@ -42,7 +49,10 @@ if (config.env === "production") {
       headless: false,
       args,
       executablePath: executablePaths[os.platform()],
-      ignoreDefaultArgs: ["--enable-automation"],
+      ignoreDefaultArgs: [
+        "--enable-automation",
+        "--enable-blink-features=IdleDetection",
+      ],
     });
 
     const context = browser.defaultBrowserContext();
