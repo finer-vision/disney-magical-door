@@ -1,7 +1,7 @@
 import { Socket } from "socket.io";
 import { Op } from "sequelize";
 import Code from "../entities/code";
-import Lock from "../services/lock";
+import Hardware from "../services/hardware";
 import config from "../config";
 import WinTime from "../entities/win-time";
 
@@ -21,7 +21,7 @@ async function isWin(code: Code): Promise<boolean> {
   return true;
 }
 
-const lock = new Lock();
+const hardware = new Hardware();
 
 type Scan = {
   code: string;
@@ -37,11 +37,13 @@ export default function scan(socket: Socket) {
       if (adminCode) {
         switch (adminCode.id) {
           case "reset-door":
-            lock.lock();
+            hardware.lock();
+            hardware.blueLight();
             socket.emit("data", { winner: false });
             break;
           case "open-door":
-            lock.unlock(config.lock.timeout);
+            hardware.unlock(config.lock.timeout);
+            hardware.blueLight();
             break;
         }
         return;
@@ -57,7 +59,8 @@ export default function scan(socket: Socket) {
       // Invalid code used
       if (!matchingCode) {
         socket.emit("data", { winner: false });
-        lock.lock();
+        hardware.lock();
+        hardware.redLight();
         return;
       }
 
@@ -67,7 +70,8 @@ export default function scan(socket: Socket) {
       socket.emit("data", { winner });
 
       if (winner) {
-        lock.unlock(config.lock.timeout);
+        hardware.unlock(config.lock.timeout);
+        hardware.greenLight();
       }
     } catch (err) {
       console.error(err);
