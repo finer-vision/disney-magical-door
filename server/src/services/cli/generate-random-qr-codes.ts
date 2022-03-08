@@ -1,4 +1,5 @@
 import * as path from "node:path";
+import * as fs from "node:fs/promises";
 import * as QRCode from "qrcode";
 import { Op } from "sequelize";
 import Code from "../../entities/code";
@@ -14,10 +15,18 @@ export default async function generateRandomQrCodes() {
 
   console.info("Generating QR codes...");
 
+  const qrCodeImagesPath = path.join(config.paths.data, "qr-code-images");
+
+  try {
+    await fs.access(qrCodeImagesPath);
+  } catch {
+    await fs.mkdir(qrCodeImagesPath);
+  }
+
   await Promise.all(
     codes.map((code) => {
       const filename = `${code.code}.svg`;
-      return QRCode.toFile(path.join(config.paths.data, filename), code.code);
+      return QRCode.toFile(path.join(qrCodeImagesPath, filename), code.code);
     })
   );
 
