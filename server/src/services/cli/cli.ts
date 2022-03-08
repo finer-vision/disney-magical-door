@@ -1,15 +1,11 @@
-import seedDatabase from "./seed-database";
-import generateWinTimes from "./generate-win-times";
+import reset from "./reset";
 
 (async () => {
   try {
     const [, , command] = process.argv;
     switch (command) {
-      case "seedDatabase":
-        await seedDatabase();
-        break;
-      case "generateWinTimes":
-        await generateWinTimes();
+      case "reset":
+        await reset();
         break;
       default:
         console.error(`No command found "${command}"`);

@@ -4,6 +4,14 @@ Server and client for the Disney experiential door event.
 
 ### Getting Started
 
+**Development Software**
+
+- GPG 2+
+- Git 2+
+- Node 17+
+- NPM 8+
+- Google Chrome 99+
+
 Decrypt `codes.csv` and `guaranteed-win-codes.csv`:
 
 > Note: replace "secret" with passphrases stored in 1Password shared vault,
@@ -22,8 +30,12 @@ sudo chmod 666 /dev/tty*
 ```
 
 ```shell
+cp server/env.example.ts server/env.ts
+###################################################
+# 👆 edit and update variables, then run these 👇 #
+###################################################
 npm install
-npm --prefix server run seed-database
+npm --prefix server run reset
 npm start
 ```
 
