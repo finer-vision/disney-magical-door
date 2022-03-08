@@ -1,18 +1,21 @@
-import * as os from "os";
+import * as os from "node:os";
+import * as path from "node:path";
 import * as puppeteer from "puppeteer-core";
+import * as express from "express";
 import database from "./services/database";
-import { socket } from "./services/app";
-import config from "./config/config";
+import { app, server, socket } from "./services/app";
+import config from "./config";
 import scan from "./actions/scan";
 
-const executablePaths: { [key: string]: string } = {
+const EXECUTABLE_PATHS: { [key: string]: string } = {
   darwin: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
   linux: "/usr/bin/google-chrome",
 };
 
-const aspect = 1080 / 1920;
-const height = 900;
-const width = Math.floor(height * aspect);
+const ASPECT = 1080 / 1920;
+const HEIGHT = 900;
+
+const PORT = config[config.env === "development" ? "client" : "server"].port;
 
 const args = [
   "--remote-debugging-port=9222",
@@ -20,7 +23,7 @@ const args = [
   "--disable-pinch",
   "--no-default-check",
   "--overscroll-history-navigation=0",
-  `--app=http://localhost:${config.client.port}`,
+  `--app=http://localhost:${PORT}`,
 ];
 
 if (config.env === "production") {
@@ -28,13 +31,17 @@ if (config.env === "production") {
 }
 
 if (config.env === "development") {
-  args.push(`--window-size=${width},${height}`);
+  args.push(`--window-size=${Math.floor(HEIGHT * ASPECT)},${HEIGHT}`);
 }
 
 (async () => {
   try {
-    if (!executablePaths[os.platform()]) {
+    if (!EXECUTABLE_PATHS[os.platform()]) {
       throw new Error("This app is not supported on the current OS");
+    }
+
+    if (config.env === "production") {
+      app.use(express.static(path.join(config.paths.client, "build")));
     }
 
     await database.sync();
@@ -48,7 +55,7 @@ if (config.env === "development") {
     const browser = await puppeteer.launch({
       headless: false,
       args,
-      executablePath: executablePaths[os.platform()],
+      executablePath: EXECUTABLE_PATHS[os.platform()],
       ignoreDefaultArgs: [
         "--enable-automation",
         "--enable-blink-features=IdleDetection",
@@ -58,10 +65,15 @@ if (config.env === "development") {
     const context = browser.defaultBrowserContext();
     await context.clearPermissionOverrides();
 
-    browser.on("disconnected", async () => {
-      await browser.close();
+    async function cleanup() {
+      socket.close();
+      await Promise.all([browser.close(), server.close(), database.close()]);
       process.exit(0);
-    });
+    }
+
+    browser.on("disconnected", cleanup);
+    process.on("SIGINT", cleanup);
+    process.on("uncaughtException", cleanup);
   } catch (err) {
     console.error(err);
     process.exit(1);

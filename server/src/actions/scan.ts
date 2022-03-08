@@ -2,9 +2,8 @@ import { Socket } from "socket.io";
 import { Op } from "sequelize";
 import Code from "../entities/code";
 import Lock from "../services/lock";
-import config from "../config/config";
+import config from "../config";
 import WinTime from "../entities/win-time";
-import adminCodes from "../config/admin-codes";
 
 async function isWin(code: Code): Promise<boolean> {
   if (code.guaranteedWin) return true;
@@ -31,7 +30,7 @@ type Scan = {
 export default function scan(socket: Socket) {
   return async (scan: Scan) => {
     try {
-      const adminCode = adminCodes.find((adminCode) => {
+      const adminCode = config.adminCodes.find((adminCode) => {
         return adminCode.code === scan.code;
       });
 

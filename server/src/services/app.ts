@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as cors from "cors";
 import { Server } from "socket.io";
-import config from "../config/config";
+import config from "../config";
 
 const app = express();
 

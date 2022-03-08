@@ -4,7 +4,7 @@ import { execSync } from "node:child_process";
 import * as crypto from "node:crypto";
 import { parse } from "csv-parse";
 import database from "../database";
-import config from "../../config/config";
+import config from "../../config";
 import Code from "../../entities/code";
 import WinTime from "../../entities/win-time";
 
