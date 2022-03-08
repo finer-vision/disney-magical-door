@@ -1,5 +1,5 @@
 import reset from "./reset";
-import generateRandomQrCodes from "./generate-random-qr-codes";
+import generateQrCodeImages from "./generate-qr-code-images";
 import generateEncryptedWinTimesCsv from "./generate-encrypted-win-times-csv";
 
 (async () => {
@@ -9,8 +9,8 @@ import generateEncryptedWinTimesCsv from "./generate-encrypted-win-times-csv";
       case "reset":
         await reset();
         break;
-      case "generateRandomQrCodes":
-        await generateRandomQrCodes();
+      case "generateQrCodeImages":
+        await generateQrCodeImages();
         break;
       case "generateEncryptedWinTimesCsv":
         await generateEncryptedWinTimesCsv();

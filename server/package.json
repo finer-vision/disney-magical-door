@@ -4,7 +4,7 @@
     "start": "NODE_ENV=development nodemon --watch env.ts --watch src src/index.ts",
     "build": "NODE_ENV=production webpack --mode production",
     "reset": "ts-node src/services/cli/cli.ts reset",
-    "generateRandomQrCodes": "ts-node src/services/cli/cli.ts generateRandomQrCodes",
+    "generateQrCodeImages": "ts-node src/services/cli/cli.ts generateQrCodeImages",
     "generateEncryptedWinTimesCsv": "ts-node src/services/cli/cli.ts generateEncryptedWinTimesCsv"
   },
   "devDependencies": {

@@ -61,12 +61,12 @@ npm --prefix server run reset
 pm2 start /home/fv/apps/disney-magical-door/ecosystem.config.js
 ```
 
-### Generating QR codes
+### Generating QR Code Images
 
-If you want to generate a QR code image, run this:
+This will generate 10 random codes + the admin codes:
 
 ```shell
-npx --prefix server/ qrcode -w 1024 -o data/g5820f88ggbc21e4.svg g5820f88ggbc21e4
+npm --prefix server run generateQrCodeImages
 ```
 
 ### Debugging Chrome App
@@ -78,6 +78,5 @@ local IP of the machine running the app, e.g. [192.168.0.2:9222](http://192.168.
 
 ### TODO
 
-- [ ] Admin codes
 - [ ] Automated EOD email to client with winning codes
-- [ ] LED RGB lights fired when QR code is scanned
+- [ ] Play sound files when scan is a winner or loser
