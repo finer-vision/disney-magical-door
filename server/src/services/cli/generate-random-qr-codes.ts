@@ -1,18 +1,16 @@
 import * as path from "node:path";
 import * as QRCode from "qrcode";
-import * as Sequelize from "sequelize";
+import { Op } from "sequelize";
 import Code from "../../entities/code";
 import config from "../../config";
 
 export default async function generateRandomQrCodes() {
-  const codes = await Code.findAll({
-    order: Sequelize.literal("rand()"),
-    limit: 10,
-    where: {
-      used: false,
-      guaranteedWin: false,
-    },
-  });
+  const ids: number[] = [];
+  const limit = 10;
+  for (let i = 0; i < limit; i++) {
+    ids.push(1 + Math.floor(Math.random() * 1000000));
+  }
+  const codes = await Code.findAll({ limit, where: { id: { [Op.in]: ids } } });
 
   console.info("Generating QR codes...");
 
