@@ -14,28 +14,12 @@ export default async function generateRandomQrCodes() {
 
   console.info("Generating QR codes...");
 
-  await Promise.all(codes.map((code) => generateQrCode(code.code)));
+  await Promise.all(
+    codes.map((code) => {
+      const filename = `${code.code}.svg`;
+      return QRCode.toFile(path.join(config.paths.data, filename), code.code);
+    })
+  );
 
   console.info("QR codes generated");
-
-  function generateQrCode(code: string): Promise<void> {
-    return new Promise((resolve) => {
-      try {
-        const filename = `${code}.svg`;
-        QRCode.toFile(
-          path.resolve(config.paths.data, filename),
-          code,
-          (err) => {
-            if (err) {
-              throw new Error(`Failed to generate QR code "${code}"`);
-            }
-          }
-        );
-      } catch (err) {
-        console.error("Error creating QR code:", err);
-      } finally {
-        resolve();
-      }
-    });
-  }
 }
