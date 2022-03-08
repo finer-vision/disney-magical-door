@@ -2,14 +2,6 @@
 
 Server and client for the Disney experiential door event.
 
-### Generating Win Times
-
-This will generate random win times for all events and encrypt them into this file `data/win-times.csv.gpg`:
-
-```shell
-npm --prefix server/ run generateEncryptedWinTimesCsv
-```
-
 ### Arduino UNO Setup
 
 1. [Download Arduino IDE](https://www.arduino.cc/en/software)
@@ -18,9 +10,7 @@ npm --prefix server/ run generateEncryptedWinTimesCsv
 4. Select: File > Examples > Firmata > StandardFirmataPlus
 5. Click "Upload" icon
 
-### Getting Started
-
-**Development Software**
+### Software Requirements
 
 - GPG 2+
 - Git 2+
@@ -28,12 +18,7 @@ npm --prefix server/ run generateEncryptedWinTimesCsv
 - NPM 8+
 - Google Chrome 99+
 
-Start project in development mode:
-
-```
-# Only on Ubuntu
-sudo chmod 666 /dev/tty*
-```
+### Getting Started Development
 
 ```shell
 cp server/env.example.ts server/env.ts
@@ -45,26 +30,37 @@ npm --prefix server run reset
 npm start
 ```
 
-Start project in production (kiosk) mode:
+### Kiosk Install
+
+These commands will make the kiosk machine plug 'n' play.
 
 ```shell
+sudo chmod 666 /dev/tty*
 cp server/env.example.ts server/env.ts
 ###################################################
 # 👆 edit and update variables, then run these 👇 #
 ###################################################
 npm install
+npm run build
 #####################################################################
 # 👇 IMPORTANT: ONLY RUN THIS COMMAND ONCE FOR THE INITIAL SETUP 👇 #
 #####################################################################
-npm run build
 npm --prefix server run reset
 pm2 start /home/fv/apps/disney-magical-door/ecosystem.config.js
 pm2 save
 ```
 
+### Generating Win Times
+
+This will generate random win times for all events and encrypt them into this file `data/win-times.csv.gpg`:
+
+```shell
+npm --prefix server/ run generateEncryptedWinTimesCsv
+```
+
 ### Generating QR Code Images
 
-This will generate 10 random codes + the admin codes:
+This will generate 10 random codes + the admin codes.
 
 ```shell
 npm --prefix server run generateQrCodeImages
