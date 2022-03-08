@@ -29,12 +29,8 @@ const config = {
     timeout: 5000,
   },
   events: [
-    // Test
-    {
-      start: new Date("2022-03-07 09:00:00 +00:00"),
-      end: new Date("2022-03-07 19:00:00 +00:00"),
-      maxWinners: 10,
-    },
+    // @todo make sure the test event never overlaps with any of the official events
+    env.testEvent,
   ],
   adminCodes,
 };
