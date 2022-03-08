@@ -57,7 +57,11 @@ export default function App() {
     <React.Suspense fallback="Loading...">
       <AppReset />
       <AppWrapper>
-        <Video src={`/assets/${state}.mp4`} onEnded={onEnded} />
+        <Video
+          src={`/assets/${state}.mp4`}
+          loop={state === State.default}
+          onEnded={onEnded}
+        />
         <Scan onScan={setCode} />
       </AppWrapper>
     </React.Suspense>
