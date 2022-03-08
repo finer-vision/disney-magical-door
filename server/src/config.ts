@@ -42,6 +42,8 @@ const config = {
       code: "open-door-iahenpq9mhfyrr3l",
     },
   ],
+  // Timeout in milliseconds
+  endOfDayReportTimeout: 15 * 60 * 1000,
 };
 
 export default config;

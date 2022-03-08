@@ -3,6 +3,7 @@ import * as path from "node:path";
 import * as puppeteer from "puppeteer-core";
 import * as express from "express";
 import database from "./services/database";
+import scheduler from "./services/scheduler/scheduler";
 import { app, server, socket } from "./services/app";
 import config from "./config";
 import scan from "./actions/scan";
@@ -43,6 +44,8 @@ if (config.env === "development") {
     if (config.env === "production") {
       app.use(express.static(path.join(config.paths.client, "build")));
     }
+
+    scheduler();
 
     await database.sync();
 
