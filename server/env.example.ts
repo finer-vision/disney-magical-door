@@ -3,6 +3,7 @@ export default {
   passphrases: {
     codes: `secret`,
     guaranteedWins: `secret`,
+    winTimes: `secret`,
   },
   testEvent: {
     start: new Date("2022-03-08 09:00:00 +00:00"),

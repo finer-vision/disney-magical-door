@@ -1,4 +1,6 @@
 import reset from "./reset";
+import generateRandomQrCodes from "./generate-random-qr-codes";
+import generateEncryptedWinTimesCsv from "./generate-encrypted-win-times-csv";
 
 (async () => {
   try {
@@ -6,6 +8,12 @@ import reset from "./reset";
     switch (command) {
       case "reset":
         await reset();
+        break;
+      case "generateRandomQrCodes":
+        await generateRandomQrCodes();
+        break;
+      case "generateEncryptedWinTimesCsv":
+        await generateEncryptedWinTimesCsv();
         break;
       default:
         console.error(`No command found "${command}"`);

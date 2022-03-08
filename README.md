@@ -53,6 +53,14 @@ npm --prefix server run reset
 pm2 start /home/fv/apps/disney-magical-door/ecosystem.config.js
 ```
 
+### Generating Win Times
+
+This will generate random win times for all events and encrypt them into this file `data/win-times.csv.gpg`:
+
+```shell
+npm --prefix server/ run generateEncryptedWinTimesCsv
+```
+
 ### Generating QR codes
 
 If you want to generate a QR code image, run this:
