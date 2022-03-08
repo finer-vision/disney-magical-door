@@ -55,6 +55,13 @@ If you want to generate a QR code image, run this:
 npx --prefix server/ qrcode -w 1024 -o data/g5820f88ggbc21e4.svg g5820f88ggbc21e4
 ```
 
+### Debugging Chrome App
+
+When running the Chrome app, visiting [localhost:9222](http://localhost:9222) will open a debugger
+with dev tools and a preview of the running app. This is useful when the app is running, and you want
+to inspect the runtime without opening the app's dev tools. Ideally you will do this on-site via the
+local IP of the machine running the app, e.g. [192.168.0.2:9222](http://192.168.0.2:9222).
+
 ### TODO
 
 - [ ] Admin codes
