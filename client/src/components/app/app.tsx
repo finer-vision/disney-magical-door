@@ -1,65 +1,43 @@
 import React from "react";
 import { AppReset, AppWrapper } from "@/components/app/styles";
-import useSocketEvent from "@/hooks/use-socket-event";
-import useChangeEvent from "@/hooks/use-change-event";
+import Scan from "@/components/scan/scan";
+import Video from "@/components/video/video";
 import socket from "@/services/socket";
 
+enum State {
+  default = "default",
+  winner = "winner",
+}
+
 export default function App() {
-  const [video, setVideo] = React.useState("loop");
-  useSocketEvent<{ winner: boolean }>("data", (data) => {
-    setVideo(data.winner ? "win" : "loop");
-  });
+  const [state, setState] = React.useState<State>(State.default);
+  const [code, setCode] = React.useState("");
 
-  const inputRef = React.useRef<HTMLInputElement>(null);
-
-  const [value, setValue] = React.useState("");
-
-  // @note the QR scanner inputs one character at a time,
-  // this effect collects all characters then fires the code
-  // off to the server when finished
+  // Update client with state from server
   React.useEffect(() => {
-    const input = inputRef.current;
-    if (input === null) return;
-    const timeout = setTimeout(() => {
-      socket.emit("scan", { code: value });
-      input.value = "";
-    }, 250);
-    return () => clearTimeout(timeout);
-  }, [value]);
-
-  const onChange = useChangeEvent<HTMLInputElement>((event) => {
-    setValue(event.target.value);
-  }, []);
-
-  React.useEffect(() => {
-    const input = inputRef.current;
-    if (input === null) return;
-    input.focus();
-
-    function onFocus() {
-      if (input === null) return;
-      input.focus();
+    function onData(data: { winner: boolean }) {
+      setState(data.winner ? State.winner : State.default);
     }
 
-    function onBlur() {
-      if (input === null) return;
-      input.focus();
-    }
-
-    window.addEventListener("focus", onFocus);
-    input.addEventListener("blur", onBlur);
+    socket.on("data", onData);
     return () => {
-      window.removeEventListener("focus", onFocus);
-      input.removeEventListener("blur", onBlur);
+      socket.off("data", onData);
     };
   }, []);
+
+  // Send scanned code to server and reset client code
+  React.useEffect(() => {
+    if (code === "") return;
+    socket.emit("scan", { code });
+    setCode("");
+  }, [code]);
 
   return (
     <React.Suspense fallback="Loading...">
       <AppReset />
       <AppWrapper>
-        <video src={`/assets/${video}.mp4`} muted autoPlay playsInline loop />
-        <input ref={inputRef} type="text" onChange={onChange} />
+        <Video src={`/assets/${state}.mp4`} />
+        <Scan onScan={setCode} />
       </AppWrapper>
     </React.Suspense>
   );

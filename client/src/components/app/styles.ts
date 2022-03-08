@@ -27,24 +27,5 @@ export const AppWrapper = styled.main`
   place-items: center;
   place-content: center;
   position: relative;
-
-  input[type="text"] {
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  video {
-    aspect-ratio: 1080 / 1920;
-    width: auto;
-    height: 100%;
-    object-fit: cover;
-
-    @media (orientation: portrait) {
-      width: 100%;
-      height: auto;
-    }
-  }
+  overflow: hidden;
 `;
