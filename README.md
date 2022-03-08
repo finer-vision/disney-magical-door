@@ -59,6 +59,7 @@ npm install
 npm run build
 npm --prefix server run reset
 pm2 start /home/fv/apps/disney-magical-door/ecosystem.config.js
+pm2 save
 ```
 
 ### Generating QR Code Images
