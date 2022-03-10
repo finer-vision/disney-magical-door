@@ -1,6 +1,21 @@
 import io from "socket.io-client";
 import config from "../config";
 
-const socket = io(`http://localhost:${config.server.port}`);
+const socket = io(`http://localhost:${config.server.port}`, {
+  autoConnect: false,
+});
 
-export default socket;
+export default {
+  connect() {
+    return socket.connect();
+  },
+  on(event: string, fn: (data?: any) => void) {
+    return socket.on(event, fn);
+  },
+  off(event: string, fn: (data?: any) => void) {
+    return socket.off(event, fn);
+  },
+  emit(event: string, data?: any) {
+    return socket.emit(event, data);
+  },
+};

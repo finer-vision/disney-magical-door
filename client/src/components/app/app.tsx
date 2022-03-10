@@ -23,6 +23,7 @@ export default function App() {
       setState(data.winner ? State.winner : State.default);
     }
 
+    socket.connect();
     socket.on("data", onData);
     return () => {
       socket.off("data", onData);

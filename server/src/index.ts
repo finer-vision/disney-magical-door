@@ -1,12 +1,14 @@
 import * as os from "node:os";
 import * as path from "node:path";
 import * as puppeteer from "puppeteer-core";
+import { Browser } from "puppeteer-core";
 import * as express from "express";
 import database from "./services/database";
 import scheduler from "./services/scheduler/scheduler";
 import { app, server, socket } from "./services/app";
 import config from "./config";
 import scan from "./actions/scan";
+import adminData from "./services/admin-data";
 
 const EXECUTABLE_PATHS: { [key: string]: string } = {
   darwin: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
@@ -36,6 +38,7 @@ if (config.env === "development") {
 }
 
 (async () => {
+  let browser: Browser = null;
   try {
     if (!EXECUTABLE_PATHS[os.platform()]) {
       throw new Error("This app is not supported on the current OS");
@@ -50,31 +53,45 @@ if (config.env === "development") {
     await database.sync();
 
     socket.on("connection", (socket) => {
+      socket.on("admin", async () => {
+        try {
+          socket.emit("update", await adminData());
+        } catch (err) {
+          console.error(err);
+        }
+      });
       socket.on("scan", scan(socket));
     });
 
     console.log(`Server running at http://localhost:${config.server.port}`);
 
-    const browser = await puppeteer.launch({
-      headless: false,
-      args,
-      executablePath: EXECUTABLE_PATHS[os.platform()],
-      ignoreDefaultArgs: [
-        "--enable-automation",
-        "--enable-blink-features=IdleDetection",
-      ],
-    });
+    if (config.openBrowser) {
+      browser = await puppeteer.launch({
+        headless: false,
+        args,
+        executablePath: EXECUTABLE_PATHS[os.platform()],
+        ignoreDefaultArgs: [
+          "--enable-automation",
+          "--enable-blink-features=IdleDetection",
+        ],
+      });
 
-    const context = browser.defaultBrowserContext();
-    await context.clearPermissionOverrides();
+      const context = browser.defaultBrowserContext();
+      await context.clearPermissionOverrides();
+    }
 
     async function cleanup() {
       socket.close();
-      await Promise.all([browser.close(), server.close(), database.close()]);
+      if (browser !== null) {
+        await browser.close();
+      }
+      await Promise.all([server.close(), database.close()]);
       process.exit(0);
     }
 
-    browser.on("disconnected", cleanup);
+    if (browser !== null) {
+      browser.on("disconnected", cleanup);
+    }
     process.on("SIGINT", cleanup);
     process.on("uncaughtException", cleanup);
   } catch (err) {

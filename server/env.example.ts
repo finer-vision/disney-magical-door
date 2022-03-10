@@ -10,4 +10,5 @@ export default {
     end: new Date("2022-03-08 19:00:00 +00:00"),
     maxWinners: 10,
   },
+  openBrowser: true,
 };
