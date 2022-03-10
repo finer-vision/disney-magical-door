@@ -41,16 +41,11 @@ export default function scheduler() {
     sendEndOfDayReportDate.getTime() + config.endOfDayReportTimeout
   );
 
-  const minute = sendEndOfDayReportDate.getMinutes();
-  const hour = sendEndOfDayReportDate.getHours();
-  const date = sendEndOfDayReportDate.getDate();
-  const month = sendEndOfDayReportDate.getMonth() + 1;
-
-  const cronExpression = `${minute} ${hour} ${date} ${month} *`;
-
-  cron.schedule(cronExpression, async () => {
-    console.info("Sending end of day report...");
-    await sendEndOfDayReport();
-    console.info("End of day report sent");
+  cron.schedule("*/5 * * * *", async () => {
+    const now = new Date();
+    console.log("run");
+    if (now.getTime() >= sendEndOfDayReportDate.getTime()) {
+      await sendEndOfDayReport();
+    }
   });
 }

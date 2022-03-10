@@ -3,6 +3,7 @@ import { Dialect } from "sequelize";
 import env from "../env";
 import Code from "./entities/code";
 import WinTime from "./entities/win-time";
+import Report from "./entities/report";
 
 const rootPath = path.resolve(__dirname, "..", "..");
 
@@ -23,7 +24,20 @@ const config = {
   database: {
     dialect: "sqlite" as Dialect,
     storage: path.join(rootPath, "data", "database.sqlite"),
-    entities: [Code, WinTime],
+    entities: [Code, WinTime, Report],
+  },
+  email: {
+    preview: env.email.preview,
+    send: env.email.send,
+    from: env.email.from,
+    transport: {
+      host: env.email.smtp.host,
+      port: env.email.smtp.port,
+      auth: {
+        user: env.email.smtp.username,
+        pass: env.email.smtp.password,
+      },
+    },
   },
   lock: {
     timeout: 5000,

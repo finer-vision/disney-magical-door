@@ -1,4 +1,15 @@
 export default {
+  email: {
+    preview: true,
+    send: false,
+    from: `hello@example.com`,
+    smtp: {
+      host: `smtp.sendgrid.net`,
+      port: 587,
+      username: `apikey`,
+      password: `secret`,
+    },
+  },
   // Passphrases stored in 1Password under "Disney Magical Door Codes"
   passphrases: {
     codes: `secret`,

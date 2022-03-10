@@ -48,9 +48,9 @@ if (config.env === "development") {
       app.use(express.static(path.join(config.paths.client, "build")));
     }
 
-    scheduler();
-
     await database.sync();
+
+    scheduler();
 
     socket.on("connection", (socket) => {
       socket.on("admin", async () => {
