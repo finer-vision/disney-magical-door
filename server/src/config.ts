@@ -44,6 +44,7 @@ const config = {
   ],
   // Timeout in milliseconds
   endOfDayReportTimeout: 15 * 60 * 1000,
+  delayBetweenScans: 5000,
 };
 
 export default config;

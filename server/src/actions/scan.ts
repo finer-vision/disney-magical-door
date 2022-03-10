@@ -27,8 +27,16 @@ type Scan = {
   code: string;
 };
 
+let lastScanTimestamp = 0;
+
 export default function scan(socket: Socket) {
   return async (scan: Scan) => {
+    const now = Date.now();
+
+    // Prevent scan from firing multiple times
+    if (now < lastScanTimestamp + config.delayBetweenScans) return;
+    lastScanTimestamp = now;
+
     try {
       const adminCode = config.adminCodes.find((adminCode) => {
         return adminCode.code === scan.code;
