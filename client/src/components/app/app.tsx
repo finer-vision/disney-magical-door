@@ -14,13 +14,25 @@ export default function App() {
   const [state, setState] = React.useState<State>(State.default);
   const [code, setCode] = React.useState("");
 
+  const audioRef = React.useRef<HTMLAudioElement>(null);
+
   const endedTimeout = React.useRef<NodeJS.Timeout>();
 
   // Update client with state from server
   React.useEffect(() => {
-    function onData(data: { winner: boolean }) {
+    async function onData(data: { winner: boolean }) {
       clearTimeout(endedTimeout.current);
-      setState(data.winner ? State.winner : State.default);
+      const state = data.winner ? State.winner : State.default;
+      setState(state);
+      const audio = audioRef.current;
+      if (audio === null) return;
+      audio.src = `/assets/${state}.wav`;
+      audio.currentTime = 0;
+      try {
+        await audio.play();
+      } catch (err) {
+        console.error(err);
+      }
     }
 
     socket.connect();
@@ -58,6 +70,7 @@ export default function App() {
     <React.Suspense fallback="Loading...">
       <AppReset />
       <AppWrapper>
+        <audio ref={audioRef} />
         <Video
           src={`/assets/${state}.mp4`}
           loop={state === State.default}

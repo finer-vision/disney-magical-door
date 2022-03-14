@@ -28,4 +28,12 @@ export const AppWrapper = styled.main`
   place-content: center;
   position: relative;
   overflow: hidden;
+
+  audio {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    top: 0;
+    left: 0;
+  }
 `;
