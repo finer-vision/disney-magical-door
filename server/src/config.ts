@@ -48,6 +48,26 @@ const config = {
   events: [
     // @todo make sure the test event never overlaps with any of the official events
     env.testEvent,
+    {
+      start: new Date("2022-04-07 10:00:00 +00:00"),
+      end: new Date("2022-04-07 22:00:00 +00:00"),
+      maxWinners: 7,
+    },
+    {
+      start: new Date("2022-04-09 08:00:00 +00:00"),
+      end: new Date("2022-04-09 20:00:00 +00:00"),
+      maxWinners: 7,
+    },
+    {
+      start: new Date("2022-04-12 08:00:00 +00:00"),
+      end: new Date("2022-04-12 20:00:00 +00:00"),
+      maxWinners: 7,
+    },
+    {
+      start: new Date("2022-04-13 08:00:00 +00:00"),
+      end: new Date("2022-04-13 20:00:00 +00:00"),
+      maxWinners: 7,
+    },
   ],
   adminCodes: [
     {

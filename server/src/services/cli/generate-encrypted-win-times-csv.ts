@@ -12,7 +12,7 @@ export default async function generateEncryptedWinTimesCsv() {
   config.events.forEach((event) => {
     const { start, end, maxWinners } = event;
     const eventDurationInMs = end.getTime() - start.getTime();
-    const winningIntervalInMs = eventDurationInMs / maxWinners;
+    const winningIntervalInMs = Math.ceil(eventDurationInMs / maxWinners);
     for (
       let offset = 0;
       offset < eventDurationInMs;
@@ -23,8 +23,8 @@ export default async function generateEncryptedWinTimesCsv() {
         start.getTime() + offset + winningIntervalInMs - 1000,
       ];
       const randomWinTimeInSecs = crypto.randomInt(
-        intervalRangeInMs[0] / 1000,
-        intervalRangeInMs[1] / 1000
+        Math.ceil(intervalRangeInMs[0] / 1000),
+        Math.ceil(intervalRangeInMs[1] / 1000)
       );
       const winTime = new Date();
       winTime.setTime(randomWinTimeInSecs * 1000);
