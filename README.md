@@ -76,3 +76,4 @@ local IP of the machine running the app, e.g. [192.168.0.2:9222](http://192.168.
 ### TODO
 
 - [ ] Play sound files when scan is a winner or loser
+- [ ] Test win times when clocks change (27th March)

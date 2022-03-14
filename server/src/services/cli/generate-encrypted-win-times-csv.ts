@@ -12,28 +12,28 @@ export default async function generateEncryptedWinTimesCsv() {
   config.events.forEach((event) => {
     const { start, end, maxWinners } = event;
     const eventDurationInMs = end.getTime() - start.getTime();
-    const winningIntervalInMs = Math.ceil(eventDurationInMs / maxWinners);
+    const winningIntervalInMs = eventDurationInMs / maxWinners;
     for (
       let offset = 0;
       offset < eventDurationInMs;
       offset += winningIntervalInMs
     ) {
       const intervalRangeInMs = [
-        start.getTime() + offset,
-        start.getTime() + offset + winningIntervalInMs - 1000,
+        Math.floor(start.getTime() + offset),
+        Math.floor(start.getTime() + offset + winningIntervalInMs - 1000),
       ];
-      const randomWinTimeInSecs = crypto.randomInt(
-        Math.ceil(intervalRangeInMs[0] / 1000),
-        Math.ceil(intervalRangeInMs[1] / 1000)
+      const randomWinTimeInMs = crypto.randomInt(
+        intervalRangeInMs[0],
+        intervalRangeInMs[1]
       );
       const winTime = new Date();
-      winTime.setTime(randomWinTimeInSecs * 1000);
+      winTime.setTime(randomWinTimeInMs);
       winTimes.push(winTime);
     }
   });
 
   const timestamps = winTimes.map((winTime) => {
-    return [format(winTime, "y-MM-dd HH:mm:ss +00:00")];
+    return [format(winTime, "y-MM-dd HH:mm:ss +01:00")];
   });
 
   const winTimePath = path.join(config.paths.data, "win-times.csv");
