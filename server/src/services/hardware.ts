@@ -1,4 +1,5 @@
-import { Board, Relay, Led } from "johnny-five";
+import { Board, Led, Relay } from "johnny-five";
+import config from "../config";
 
 export default class Hardware {
   private ready: boolean = false;
@@ -45,15 +46,15 @@ export default class Hardware {
     }, duration);
   }
 
-  redLight(duration = 2000) {
+  redLight(duration = config.light.timeout) {
     this.toggleLight(0, duration);
   }
 
-  greenLight(duration = 2000) {
+  greenLight(duration = config.light.timeout) {
     this.toggleLight(1, duration);
   }
 
-  blueLight(duration = 2000) {
+  blueLight(duration = config.light.timeout) {
     this.toggleLight(2, duration);
   }
 
@@ -66,7 +67,7 @@ export default class Hardware {
     this.locked = false;
   }
 
-  unlock(timeout = 0) {
+  unlock(timeout = config.lock.timeout) {
     if (!this.ready) {
       console.warn("WARN: Board not ready");
       return;

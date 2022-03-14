@@ -40,7 +40,10 @@ const config = {
     },
   },
   lock: {
-    timeout: 5000,
+    timeout: 10000,
+  },
+  light: {
+    timeout: 4000,
   },
   events: [
     // @todo make sure the test event never overlaps with any of the official events

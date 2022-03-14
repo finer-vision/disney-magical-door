@@ -50,7 +50,7 @@ export default function scan(socket: Socket) {
             socket.emit("data", { winner: false });
             break;
           case "open-door":
-            hardware.unlock(config.lock.timeout);
+            hardware.unlock();
             hardware.blueLight();
             break;
         }
@@ -78,7 +78,7 @@ export default function scan(socket: Socket) {
       socket.emit("data", { winner });
 
       if (winner) {
-        hardware.unlock(config.lock.timeout);
+        hardware.unlock();
         hardware.greenLight();
       }
     } catch (err) {

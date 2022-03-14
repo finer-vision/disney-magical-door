@@ -42,9 +42,9 @@ cp server/env.example.ts server/env.ts
 ###################################################
 npm install
 npm run build
-#####################################################################
-# 👇 IMPORTANT: ONLY RUN THIS COMMAND ONCE FOR THE INITIAL SETUP 👇 #
-#####################################################################
+#######################################################################
+# 👇 IMPORTANT: ONLY RUN THESE COMMANDS ONCE FOR THE INITIAL SETUP 👇 #
+#######################################################################
 npm --prefix server run reset
 pm2 start /home/fv/apps/disney-magical-door/ecosystem.config.js
 pm2 save
@@ -75,5 +75,4 @@ local IP of the machine running the app, e.g. [192.168.0.2:9222](http://192.168.
 
 ### TODO
 
-- [ ] Automated EOD email to client with winning codes
 - [ ] Play sound files when scan is a winner or loser
