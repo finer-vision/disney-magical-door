@@ -40,7 +40,7 @@ const config = {
     },
   },
   lock: {
-    timeout: 10000,
+    timeout: 60 * 1000,
   },
   light: {
     timeout: 4000,
