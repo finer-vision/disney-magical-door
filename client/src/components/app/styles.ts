@@ -10,6 +10,19 @@ export const AppReset = createGlobalStyle`
   html, body, #root {
     width: 100%;
     height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #root {
+    width: 100vh;
+    height: 100vw;
+    transform: rotate(90deg);
   }
 
   html {
@@ -21,8 +34,8 @@ export const AppReset = createGlobalStyle`
 `;
 
 export const AppWrapper = styled.main`
-  width: 100%;
-  height: 100%;
+  width: 100vh;
+  height: 100vw;
   display: flex;
   place-items: center;
   place-content: center;
