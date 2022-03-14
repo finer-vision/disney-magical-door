@@ -62,8 +62,13 @@ export default function Scan({ onScan, inputTimeout = 50 }: Props) {
     };
   }, []);
 
+  const onSubmit = React.useCallback((event: React.FormEvent) => {
+    event.preventDefault();
+    console.log("onSubmit");
+  }, []);
+
   return (
-    <ScanWrapper>
+    <ScanWrapper onSubmit={onSubmit}>
       <input ref={inputRef} type="text" onChange={onChange} />
     </ScanWrapper>
   );
