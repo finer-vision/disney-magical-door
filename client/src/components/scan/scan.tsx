@@ -1,6 +1,7 @@
 import React from "react";
 import useChangeEvent from "@/hooks/use-change-event";
 import { ScanWrapper } from "@/components/scan/styles";
+import { useAppState } from "@/state/app-state";
 
 type Props = {
   onScan: (code: string) => void;
@@ -8,6 +9,8 @@ type Props = {
 };
 
 export default function Scan({ onScan, inputTimeout = 50 }: Props) {
+  const { setInteracted } = useAppState();
+
   const onScanRef = React.useRef(onScan);
   React.useMemo(() => {
     onScanRef.current = onScan;
@@ -31,6 +34,7 @@ export default function Scan({ onScan, inputTimeout = 50 }: Props) {
   }, [code, inputTimeout]);
 
   const onChange = useChangeEvent<HTMLInputElement>((event) => {
+    setInteracted(true);
     setCode(event.target.value);
   }, []);
 
