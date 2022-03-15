@@ -12,7 +12,14 @@ export default async function generateQrCodeImages() {
   for (let i = 0; i < limit; i++) {
     ids.push(1 + Math.floor(Math.random() * 1000000));
   }
-  const codes = await Code.findAll({ limit, where: { id: { [Op.in]: ids } } });
+  const codes = await Code.findAll({
+    limit,
+    where: { id: { [Op.in]: ids, guaranteedWin: false } },
+  });
+  const guaranteedCodes = await Code.findAll({
+    limit,
+    where: { guaranteedWin: true },
+  });
 
   console.info("Generating QR codes...");
 
@@ -21,6 +28,10 @@ export default async function generateQrCodeImages() {
     config.paths.data,
     "qr-code-admin-images"
   );
+  const qrCodeGuaranteedWinImagesPath = path.join(
+    config.paths.data,
+    "qr-code-guaranteed-win-images"
+  );
 
   try {
     await fs.access(qrCodeImagesPath);
@@ -28,6 +39,14 @@ export default async function generateQrCodeImages() {
     await fs.mkdir(qrCodeImagesPath);
   } catch {
     await fs.mkdir(qrCodeImagesPath);
+  }
+
+  try {
+    await fs.access(qrCodeGuaranteedWinImagesPath);
+    execSync(`rm -rf ${qrCodeGuaranteedWinImagesPath}`);
+    await fs.mkdir(qrCodeGuaranteedWinImagesPath);
+  } catch {
+    await fs.mkdir(qrCodeGuaranteedWinImagesPath);
   }
 
   try {
@@ -40,6 +59,16 @@ export default async function generateQrCodeImages() {
     codes.map((code) => {
       const filename = `${code.code}.svg`;
       return QRCode.toFile(path.join(qrCodeImagesPath, filename), code.code);
+    })
+  );
+
+  await Promise.all(
+    guaranteedCodes.map((code) => {
+      const filename = `${code.code}.svg`;
+      return QRCode.toFile(
+        path.join(qrCodeGuaranteedWinImagesPath, filename),
+        code.code
+      );
     })
   );
 
