@@ -5,6 +5,7 @@ import config from "../../config";
 import Code from "../../entities/code";
 import parseCsv from "../parse-csv";
 import WinTime from "../../entities/win-time";
+import getRandomWinTimesFromEvents from "../get-random-win-times-from-events";
 
 export default async function reset() {
   await database.sync({ force: true });
@@ -40,6 +41,14 @@ async function importWinTimes() {
 
   await WinTime.bulkCreate(
     winTimes.map((timestamp) => {
+      return { timestamp };
+    })
+  );
+
+  const testWinTimes = getRandomWinTimesFromEvents(config.testEvents);
+
+  await WinTime.bulkCreate(
+    testWinTimes.map((timestamp) => {
       return { timestamp };
     })
   );

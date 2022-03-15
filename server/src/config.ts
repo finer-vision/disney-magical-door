@@ -45,9 +45,29 @@ const config = {
   light: {
     timeout: 4000,
   },
+  testEvents: [
+    {
+      start: new Date("2022-03-15 09:00:00 +01:00"),
+      end: new Date("2022-03-15 21:00:00 +01:00"),
+      maxWinners: 7,
+    },
+    {
+      start: new Date("2022-03-16 09:00:00 +01:00"),
+      end: new Date("2022-03-16 21:00:00 +01:00"),
+      maxWinners: 7,
+    },
+    {
+      start: new Date("2022-03-17 09:00:00 +01:00"),
+      end: new Date("2022-03-17 21:00:00 +01:00"),
+      maxWinners: 7,
+    },
+    {
+      start: new Date("2022-03-18 09:00:00 +01:00"),
+      end: new Date("2022-03-18 21:00:00 +01:00"),
+      maxWinners: 7,
+    },
+  ],
   events: [
-    // @todo make sure the test event never overlaps with any of the official events
-    env.testEvent,
     {
       start: new Date("2022-04-07 10:00:00 +01:00"),
       end: new Date("2022-04-07 22:00:00 +01:00"),
