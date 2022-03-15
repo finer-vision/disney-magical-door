@@ -2,6 +2,7 @@ import { Op } from "sequelize";
 import { endOfDay, startOfDay } from "date-fns";
 import Code from "../entities/code";
 import WinTime from "../entities/win-time";
+import Win from "../entities/win";
 
 type Data = {
   winTimes: WinTime[];
@@ -21,6 +22,9 @@ export default async function adminData(): Promise<Data> {
       where: { usedAt: { [Op.between]: dateRange } },
       order: [["usedAt", "desc"]],
       limit: 5,
+    }),
+    Win.findAll({
+      where: { usedAt: { [Op.between]: dateRange } },
     }),
   ]);
 

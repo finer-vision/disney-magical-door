@@ -82,9 +82,11 @@ export default function scan(socket: Socket) {
         return;
       }
 
+      const now = new Date();
+
       // Valid code used
       const winner = await isWin(matchingCode);
-      await matchingCode.update({ used: true });
+      await matchingCode.update({ used: true, usedAt: now });
       socket.emit("data", { winner });
 
       if (winner) {
@@ -93,7 +95,7 @@ export default function scan(socket: Socket) {
         await Win.create({
           code: scan.code,
           guaranteedWin: matchingCode.guaranteedWin,
-          usedAt: new Date(),
+          usedAt: now,
         });
       }
     } catch (err) {

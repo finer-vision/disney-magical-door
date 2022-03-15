@@ -15,4 +15,9 @@ export default class Code extends Model {
   @Index({ name: "codesGuaranteedWinIndex" })
   @Column
   guaranteedWin: boolean;
+
+  @Default(null)
+  @Index({ name: "codesUsedAtIndex" })
+  @Column
+  usedAt: Date;
 }
