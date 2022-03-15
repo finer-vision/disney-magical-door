@@ -4,4 +4,5 @@ export default {
   },
   // Timeout in milliseconds
   winnerVideoHoldTimeout: 10 * 1000,
+  winningVideos: 3,
 };

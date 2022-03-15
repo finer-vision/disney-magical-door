@@ -13,6 +13,7 @@ enum State {
 export default function App() {
   const [state, setState] = React.useState<State>(State.default);
   const [code, setCode] = React.useState("");
+  const [videoSrc, setVideoSrc] = React.useState("");
 
   const audioRef = React.useRef<HTMLAudioElement>(null);
 
@@ -66,13 +67,23 @@ export default function App() {
     };
   }, []);
 
+  React.useEffect(() => {
+    const winningVideos = ["winner/1.mp4", "winner/2.mp4", "winner/3.mp4"];
+    let videoSrc = State.default.toString();
+    if (state === State.winner) {
+      const index = Math.round(Math.random() * (config.winningVideos - 1));
+      videoSrc = winningVideos[index];
+    }
+    setVideoSrc(videoSrc);
+  }, [state]);
+
   return (
     <React.Suspense fallback="Loading...">
       <AppReset />
       <AppWrapper>
         <audio ref={audioRef} />
         <Video
-          src={`/assets/${state}.mp4`}
+          src={`/assets/${videoSrc}.mp4`}
           loop={state === State.default}
           onEnded={onEnded}
         />
