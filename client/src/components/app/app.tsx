@@ -13,7 +13,7 @@ enum State {
 export default function App() {
   const [state, setState] = React.useState<State>(State.default);
   const [code, setCode] = React.useState("");
-  const [videoSrc, setVideoSrc] = React.useState("");
+  const [videoSrc, setVideoSrc] = React.useState(State.default.toString());
 
   const audioRef = React.useRef<HTMLAudioElement>(null);
 
