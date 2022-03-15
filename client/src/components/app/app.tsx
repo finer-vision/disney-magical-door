@@ -10,10 +10,32 @@ enum State {
   winner = "winner",
 }
 
+enum DayState {
+  day = "day",
+  night = "night",
+}
+
+function getDayState(): DayState {
+  const now = new Date();
+  const startOfDayEpoch = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    0,
+    0,
+    0,
+    0
+  ).getTime();
+  const elapsedTime = now.getTime() - startOfDayEpoch;
+  if (elapsedTime >= config.nightStartTime) return DayState.night;
+  return DayState.day;
+}
+
 export default function App() {
+  const [dayState, setDayState] = React.useState<DayState>(getDayState);
   const [state, setState] = React.useState<State>(State.default);
   const [code, setCode] = React.useState("");
-  const [videoSrc, setVideoSrc] = React.useState(State.default.toString());
+  const [videoId, setVideoId] = React.useState(0);
 
   const audioRef = React.useRef<HTMLAudioElement>(null);
 
@@ -68,14 +90,22 @@ export default function App() {
   }, []);
 
   React.useEffect(() => {
-    const winningVideos = ["winner/1.mp4", "winner/2.mp4", "winner/3.mp4"];
-    let videoSrc = State.default.toString();
+    let videoId = 0;
     if (state === State.winner) {
-      const index = Math.round(Math.random() * (config.winningVideos - 1));
-      videoSrc = winningVideos[index];
+      videoId = Math.round(Math.random() * (config.winningVideos - 1));
     }
-    setVideoSrc(videoSrc);
+    setVideoId(videoId);
   }, [state]);
+
+  React.useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    (function updateDayState() {
+      clearTimeout(timeout);
+      timeout = setTimeout(updateDayState, 1000);
+      setDayState(getDayState());
+    })();
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
     <React.Suspense fallback="Loading...">
@@ -83,7 +113,7 @@ export default function App() {
       <AppWrapper>
         <audio ref={audioRef} />
         <Video
-          src={`/assets/${videoSrc}.mp4`}
+          src={`/assets/videos/${dayState}/${state}/${videoId}.mp4`}
           loop={state === State.default}
           onEnded={onEnded}
         />
