@@ -3,16 +3,15 @@ import { execSync } from "node:child_process";
 import database from "../database";
 import config from "../../config";
 import Code from "../../entities/code";
-import parseCsv from "../parse-csv";
 import WinTime from "../../entities/win-time";
+import parseCsv from "../parse-csv";
 import getRandomWinTimesFromEvents from "../get-random-win-times-from-events";
 
 export default async function reset() {
   await database.sync({ force: true });
-
   decryptFiles();
-
-  await Promise.all([importCodes(), importWinTimes()]);
+  await importCodes();
+  await importWinTimes();
 }
 
 function decryptFiles() {

@@ -9,7 +9,7 @@ import {
 import adminData from "../services/admin-data";
 
 @Table({ tableName: "wins", timestamps: false })
-export default class Code extends Model {
+export default class Win extends Model {
   @Index({ name: "winCodeIndex" })
   @Column
   code: string;
