@@ -81,7 +81,7 @@ async function importCodes(): Promise<void> {
       Code.bulkCreate(guaranteedCodeRecords),
     ]);
   } catch (err) {
-    console.error("Failed to import all codes:", err);
+    console.error("Failed to import all codes:", err.message);
   }
 
   console.info("Codes + guaranteed win codes imported");
