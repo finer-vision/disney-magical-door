@@ -6,14 +6,14 @@ import Win from "../entities/win";
 
 type Data = {
   winTimes: WinTime[];
-  lastCodeScans: Code[];
+  lastCodeScans: (Code | Win)[];
 };
 
 export default async function adminData(): Promise<Data> {
   const now = new Date();
   const dateRange: [Date, Date] = [startOfDay(now), endOfDay(now)];
 
-  const [winTimes, lastCodeScans] = await Promise.all([
+  const [winTimes, lastCodeScans, wins] = await Promise.all([
     WinTime.findAll({
       where: { timestamp: { [Op.between]: dateRange } },
       order: [["usedAt", "desc"]],
@@ -28,5 +28,5 @@ export default async function adminData(): Promise<Data> {
     }),
   ]);
 
-  return { winTimes, lastCodeScans };
+  return { winTimes, lastCodeScans: [...lastCodeScans, ...wins] };
 }

@@ -19,6 +19,7 @@ export default function Admin() {
 
   React.useEffect(() => {
     function onUpdate(data: any) {
+      console.log(data);
       setWinTimes(data.winTimes);
       setLastCodeScans(data.lastCodeScans);
     }
