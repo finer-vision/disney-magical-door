@@ -2,7 +2,7 @@ import { Op } from "sequelize";
 import { endOfDay, format, startOfDay } from "date-fns";
 import { stringify } from "csv-stringify";
 import Report from "../../entities/report";
-import Code from "../../entities/code";
+import Win from "../../entities/win";
 import email from "../email";
 
 export default async function sendEndOfDayReport() {
@@ -17,8 +17,8 @@ export default async function sendEndOfDayReport() {
     console.info("Sending end of day report...");
     await Report.create({});
 
-    const winners = await Code.findAll({
-      where: { usedAt: { [Op.between]: dateRange }, winner: true },
+    const winners = await Win.findAll({
+      where: { usedAt: { [Op.between]: dateRange } },
       order: [["usedAt", "desc"]],
     });
 
@@ -53,4 +53,3 @@ export default async function sendEndOfDayReport() {
     console.error(err);
   }
 }
-

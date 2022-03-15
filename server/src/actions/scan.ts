@@ -1,9 +1,10 @@
 import { Socket } from "socket.io";
 import { Op } from "sequelize";
 import Code from "../entities/code";
+import WinTime from "../entities/win-time";
+import Win from "../entities/win";
 import Hardware from "../services/hardware";
 import config from "../config";
-import WinTime from "../entities/win-time";
 
 async function isWin(code: Code): Promise<boolean> {
   if (code.guaranteedWin) return true;
@@ -83,12 +84,17 @@ export default function scan(socket: Socket) {
 
       // Valid code used
       const winner = await isWin(matchingCode);
-      await matchingCode.update({ used: true, winner, usedAt: new Date() });
+      await matchingCode.update({ used: true });
       socket.emit("data", { winner });
 
       if (winner) {
         hardware.unlock();
         hardware.greenLight();
+        await Win.create({
+          code: scan.code,
+          guaranteedWin: matchingCode.guaranteedWin,
+          usedAt: new Date(),
+        });
       }
     } catch (err) {
       console.error(err);

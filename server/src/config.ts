@@ -3,6 +3,7 @@ import { Dialect } from "sequelize";
 import env from "../env";
 import Code from "./entities/code";
 import WinTime from "./entities/win-time";
+import Win from "./entities/win";
 import Report from "./entities/report";
 
 const rootPath = path.resolve(__dirname, "..", "..");
@@ -24,7 +25,7 @@ const config = {
   database: {
     dialect: "sqlite" as Dialect,
     storage: path.join(rootPath, "data", "database.sqlite"),
-    entities: [Code, WinTime, Report],
+    entities: [Code, WinTime, Win, Report],
   },
   email: {
     preview: env.email.preview,
