@@ -60,14 +60,14 @@ export default function scan(socket: Socket) {
       const matchingCode = await Code.findOne({
         where: {
           code: scan.code,
-          // Make sure the code isn't used. However, if it's a guaranteedWin
+          // Make sure the code isn't reused. However, if it's a guaranteedWin
           // then it can be used multiple times
           [Op.or]: [
             {
               used: false,
             },
             {
-              guaranteedWin: false,
+              guaranteedWin: true,
             },
           ],
         },
