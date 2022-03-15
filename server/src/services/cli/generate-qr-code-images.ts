@@ -14,7 +14,7 @@ export default async function generateQrCodeImages() {
   }
   const codes = await Code.findAll({
     limit,
-    where: { id: { [Op.in]: ids, guaranteedWin: false } },
+    where: { id: { [Op.in]: ids } },
   });
   const guaranteedCodes = await Code.findAll({
     limit,
