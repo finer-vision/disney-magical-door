@@ -92,7 +92,8 @@ export default function App() {
   React.useEffect(() => {
     let videoId = 0;
     if (state === State.winner) {
-      videoId = Math.round(Math.random() * (config.winningVideos - 1));
+      // @todo put back after client video testing
+      // videoId = Math.round(Math.random() * (config.winningVideos - 1));
     }
     setVideoId(videoId);
   }, [state]);
