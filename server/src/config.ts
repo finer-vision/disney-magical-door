@@ -48,23 +48,23 @@ const config = {
   },
   testEvents: [
     {
-      start: new Date("2022-03-15 09:00:00 +01:00"),
-      end: new Date("2022-03-15 21:00:00 +01:00"),
+      start: new Date("2022-03-21 10:00:00 +00:00"),
+      end: new Date("2022-03-21 17:00:00 +00:00"),
       maxWinners: 7,
     },
     {
-      start: new Date("2022-03-16 09:00:00 +01:00"),
-      end: new Date("2022-03-16 21:00:00 +01:00"),
+      start: new Date("2022-03-22 10:00:00 +00:00"),
+      end: new Date("2022-03-22 17:00:00 +00:00"),
       maxWinners: 7,
     },
     {
-      start: new Date("2022-03-17 09:00:00 +01:00"),
-      end: new Date("2022-03-17 21:00:00 +01:00"),
+      start: new Date("2022-03-23 10:00:00 +00:00"),
+      end: new Date("2022-03-23 17:00:00 +00:00"),
       maxWinners: 7,
     },
     {
-      start: new Date("2022-03-18 09:00:00 +01:00"),
-      end: new Date("2022-03-18 21:00:00 +01:00"),
+      start: new Date("2022-03-24 10:00:00 +00:00"),
+      end: new Date("2022-03-24 17:00:00 +00:00"),
       maxWinners: 7,
     },
   ],
