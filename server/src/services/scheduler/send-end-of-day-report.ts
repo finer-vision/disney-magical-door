@@ -28,9 +28,13 @@ export default async function sendEndOfDayReport() {
     }
 
     const csv = stringify([
-      ["code", "usedAt"],
+      ["code", "guaranteedWin", "usedAt"],
       ...winners.map((winner) => {
-        return [winner.code, winner.usedAt.toISOString()];
+        return [
+          winner.code,
+          winner.guaranteedWin ? "YES" : "NO",
+          winner.usedAt.toISOString(),
+        ];
       }),
     ]);
 
