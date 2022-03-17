@@ -4,6 +4,7 @@ import { stringify } from "csv-stringify";
 import Report from "../../entities/report";
 import Win from "../../entities/win";
 import email from "../email";
+import config from "../../config";
 
 export default async function sendEndOfDayReport() {
   try {
@@ -43,6 +44,8 @@ export default async function sendEndOfDayReport() {
     await email.send({
       message: {
         subject: `${date} Winners`,
+        to: config.email.to,
+        from: config.email.from,
         attachments: [
           {
             filename: `${date}-winners.csv`,

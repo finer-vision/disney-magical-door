@@ -30,6 +30,10 @@ const config = {
   email: {
     preview: env.email.preview,
     send: env.email.send,
+    to: [
+      // Emails of people who should receive end of day winners CSV file
+      "jamescraig@finervision.com",
+    ],
     from: env.email.from,
     transport: {
       host: env.email.smtp.host,
@@ -50,7 +54,7 @@ const config = {
   testEvents: [
     {
       start: new Date("2022-03-17 12:00:00 +00:00"),
-      end: new Date("2022-03-17 17:00:00 +00:00"),
+      end: new Date("2022-03-17 13:00:00 +00:00"),
       maxWinners: 7,
     },
     {
