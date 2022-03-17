@@ -50,14 +50,6 @@ pm2 start /home/fv/apps/disney-magical-door/ecosystem.config.js
 pm2 save
 ```
 
-### Generating Win Times
-
-This will generate random win times for all events and encrypt them into this file `data/win-times.csv.gpg`:
-
-```shell
-npm --prefix server/ run generateEncryptedWinTimesCsv
-```
-
 ### Generating QR Code Images
 
 This will generate 10 random codes + the admin codes.
@@ -72,8 +64,3 @@ When running the Chrome app, visiting [localhost:9222](http://localhost:9222) wi
 with dev tools and a preview of the running app. This is useful when the app is running, and you want
 to inspect the runtime without opening the app's dev tools. Ideally you will do this on-site via the
 local IP of the machine running the app, e.g. [192.168.0.2:9222](http://192.168.0.2:9222).
-
-### TODO
-
-- [ ] Play sound files when scan is a winner or loser
-- [ ] Test win times when clocks change (27th March)

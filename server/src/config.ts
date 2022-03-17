@@ -46,7 +46,13 @@ const config = {
   light: {
     timeout: 4000,
   },
+  // @todo make this an empty array before the first live event (7th April 2022) and reset the database
   testEvents: [
+    {
+      start: new Date("2022-03-17 12:00:00 +00:00"),
+      end: new Date("2022-03-17 17:00:00 +00:00"),
+      maxWinners: 7,
+    },
     {
       start: new Date("2022-03-21 10:00:00 +00:00"),
       end: new Date("2022-03-21 17:00:00 +00:00"),
