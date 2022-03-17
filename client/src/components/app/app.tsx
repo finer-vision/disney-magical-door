@@ -35,7 +35,6 @@ export default function App() {
   const [dayState, setDayState] = React.useState<DayState>(getDayState);
   const [state, setState] = React.useState<State>(State.default);
   const [code, setCode] = React.useState("");
-  const [videoId, setVideoId] = React.useState(0);
 
   const audioRef = React.useRef<HTMLAudioElement>(null);
 
@@ -90,15 +89,6 @@ export default function App() {
   }, []);
 
   React.useEffect(() => {
-    let videoId = 0;
-    if (state === State.winner) {
-      // @todo put back after client video testing
-      // videoId = Math.round(Math.random() * (config.winningVideos - 1));
-    }
-    setVideoId(videoId);
-  }, [state]);
-
-  React.useEffect(() => {
     let timeout: NodeJS.Timeout;
     (function updateDayState() {
       clearTimeout(timeout);
@@ -114,7 +104,7 @@ export default function App() {
       <AppWrapper>
         <audio ref={audioRef} />
         <Video
-          src={`/assets/videos/${dayState}/${state}/${videoId}.mp4`}
+          src={`/assets/videos/${dayState}/${state}.mp4`}
           loop={state === State.default}
           onEnded={onEnded}
         />
