@@ -15,7 +15,7 @@ const EXECUTABLE_PATHS: { [key: string]: string } = {
   linux: "/usr/bin/google-chrome",
 };
 
-const ASPECT = 1080 / 1920;
+const ASPECT = 1920 / 1080;
 const HEIGHT = 900;
 
 const PORT = config[config.env === "development" ? "client" : "server"].port;
