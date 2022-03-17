@@ -1,6 +1,5 @@
 import reset from "./reset";
 import generateQrCodeImages from "./generate-qr-code-images";
-import generateEncryptedWinTimesCsv from "./generate-encrypted-win-times-csv";
 
 (async () => {
   try {
@@ -11,9 +10,6 @@ import generateEncryptedWinTimesCsv from "./generate-encrypted-win-times-csv";
         break;
       case "generateQrCodeImages":
         await generateQrCodeImages();
-        break;
-      case "generateEncryptedWinTimesCsv":
-        await generateEncryptedWinTimesCsv();
         break;
       default:
         console.error(`No command found "${command}"`);
