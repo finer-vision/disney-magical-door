@@ -6,8 +6,7 @@ import config from "../../config";
 
 export default function scheduler() {
   const now = new Date();
-  const events = [...config.testEvents, ...config.events];
-  const eventDatesAscending = events
+  const eventDatesAscending = config.events
     .map((event) => {
       return [event.start, event.end];
     })
@@ -15,7 +14,7 @@ export default function scheduler() {
     .sort();
 
   const closestEventDate = closestTo(now, eventDatesAscending);
-  const closestEvent = events.find((event) => {
+  const closestEvent = config.events.find((event) => {
     return [event.start.getTime(), event.end.getTime()].includes(
       closestEventDate.getTime()
     );

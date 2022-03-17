@@ -45,20 +45,6 @@ async function importWinTimes() {
   );
 
   console.info("Win times imported");
-
-  if (config.testEvents.length > 0) {
-    console.info("Importing test win times...");
-
-    const testWinTimes = getRandomWinTimesFromEvents(config.testEvents);
-
-    await WinTime.bulkCreate(
-      testWinTimes.map((timestamp) => {
-        return { timestamp };
-      })
-    );
-
-    console.info("Test win times imported");
-  }
 }
 
 async function importCodes(): Promise<void> {
