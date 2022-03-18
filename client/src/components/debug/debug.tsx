@@ -29,6 +29,10 @@ export default function Debug() {
   React.useEffect(() => {
     socket.connect();
     socket.emit("admin");
+    document.title = "Disney Magical Door (DEBUG MODE)";
+    return () => {
+      document.title = "Disney Magical Door";
+    };
   }, []);
 
   return (
