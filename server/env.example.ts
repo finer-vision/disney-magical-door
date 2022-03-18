@@ -1,18 +1,20 @@
-import { removeTimezoneOffset } from "./src/utils";
+import { startOfDay } from "date-fns";
+import { currentTime, generateTestWinTimes } from "./src/utils";
+
+// 10:00:00
+const testEventStart = currentTime();
+testEventStart.setTime(startOfDay(testEventStart).getTime() + 10 * 3600 * 1000);
+
+// 15:00:00
+const testEventEnd = currentTime();
+testEventEnd.setTime(startOfDay(testEventEnd).getTime() + 15 * 3600 * 1000);
 
 export default {
-  testWinTimes: [
-    {
-      used: false,
-      timestamp: removeTimezoneOffset(new Date("2022-03-18T10:00:00")),
-      usedAt: null,
-    },
-    {
-      used: false,
-      timestamp: removeTimezoneOffset(new Date("2022-03-18T10:30:00")),
-      usedAt: null,
-    },
-  ],
+  testWinTimes: generateTestWinTimes({
+    start: testEventStart,
+    end: testEventEnd,
+    maxWinners: 7,
+  }),
   email: {
     preview: true,
     send: false,
@@ -29,11 +31,6 @@ export default {
     codes: `secret`,
     guaranteedWins: `secret`,
     winTimes: `secret`,
-  },
-  testEvent: {
-    start: new Date("2022-03-08 09:00:00"),
-    end: new Date("2022-03-08 19:00:00"),
-    maxWinners: 10,
   },
   openBrowser: true,
 };
