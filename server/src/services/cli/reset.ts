@@ -5,7 +5,6 @@ import config from "../../config";
 import Code from "../../entities/code";
 import WinTime from "../../entities/win-time";
 import parseCsv from "../parse-csv";
-import getRandomWinTimesFromEvents from "../get-random-win-times-from-events";
 
 export default async function reset() {
   await database.sync({ force: true });
