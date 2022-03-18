@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ScanWrapper = styled.form`
+export const ScanWrapper = styled.div`
   opacity: 0;
   pointer-events: none;
   position: absolute;

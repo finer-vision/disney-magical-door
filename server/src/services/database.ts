@@ -6,6 +6,9 @@ const database = new Sequelize({
   storage: config.database.storage,
   logging: false,
   models: config.database.entities,
+  query: {
+    logging: config.env === "production" ? false : console.log,
+  },
 });
 
 export default database;

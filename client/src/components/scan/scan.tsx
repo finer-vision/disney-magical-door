@@ -9,8 +9,6 @@ type Props = {
 };
 
 export default function Scan({ onScan, inputTimeout = 50 }: Props) {
-  const { setInteracted } = useAppState();
-
   const onScanRef = React.useRef(onScan);
   React.useMemo(() => {
     onScanRef.current = onScan;
@@ -18,57 +16,48 @@ export default function Scan({ onScan, inputTimeout = 50 }: Props) {
 
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const [code, setCode] = React.useState("");
+  const timeoutRef = React.useRef<NodeJS.Timeout>();
+
+  React.useEffect(() => {
+    return () => clearTimeout(timeoutRef.current);
+  }, []);
 
   // @note the QR scanner inputs one character at a time,
   // this effect collects all characters then fires the code
   // off to the server when finished
-  React.useEffect(() => {
-    const input = inputRef.current;
-    if (input === null) return;
-    const timeout = setTimeout(() => {
-      onScanRef.current(code);
-      input.value = "";
-    }, inputTimeout);
-    return () => clearTimeout(timeout);
-  }, [code, inputTimeout]);
-
-  const onChange = useChangeEvent<HTMLInputElement>((event) => {
-    setInteracted(true);
-    setCode(event.target.value);
-  }, []);
+  const onChange = useChangeEvent<HTMLInputElement>(
+    (event) => {
+      useAppState.getState().setInteracted(true);
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+        onScanRef.current(event.target.value);
+        event.target.value = "";
+      }, inputTimeout);
+    },
+    [inputTimeout]
+  );
 
   // Always keep input focused so QR code gets inserted into it
   React.useEffect(() => {
     const input = inputRef.current;
-    if (input === null) return;
-    input.focus();
 
-    function onFocus() {
+    function focus() {
       if (input === null) return;
       input.focus();
     }
 
-    function onBlur() {
-      if (input === null) return;
-      input.focus();
-    }
+    focus();
 
-    window.addEventListener("focus", onFocus);
-    input.addEventListener("blur", onBlur);
+    window.addEventListener("focus", focus);
+    input.addEventListener("blur", focus);
     return () => {
-      window.removeEventListener("focus", onFocus);
-      input.removeEventListener("blur", onBlur);
+      window.removeEventListener("focus", focus);
+      input.removeEventListener("blur", focus);
     };
   }, []);
 
-  const onSubmit = React.useCallback((event: React.FormEvent) => {
-    event.preventDefault();
-    console.log("onSubmit");
-  }, []);
-
   return (
-    <ScanWrapper onSubmit={onSubmit}>
+    <ScanWrapper>
       <input ref={inputRef} type="text" onChange={onChange} />
     </ScanWrapper>
   );
