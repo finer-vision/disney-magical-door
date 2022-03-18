@@ -1,6 +1,6 @@
 import * as path from "path";
+import * as webpack from "webpack";
 import * as nodeExternals from "webpack-node-externals";
-import { DefinePlugin } from "webpack";
 
 const DEV_MODE = process.env.NODE_ENV === "development";
 const SRC_DIR = path.resolve(__dirname, "src");
@@ -20,7 +20,7 @@ const config = {
     ],
   },
   plugins: [
-    new DefinePlugin({
+    new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
     }),
   ],

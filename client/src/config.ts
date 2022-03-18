@@ -1,4 +1,5 @@
 export default {
+  env: process.env.NODE_ENV ?? "production",
   server: {
     port: 3000,
   },

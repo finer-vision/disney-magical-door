@@ -1,4 +1,5 @@
 import * as path from "path";
+import * as webpack from "webpack";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import * as CopyPlugin from "copy-webpack-plugin";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -69,6 +70,9 @@ const config = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      "NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+    }),
     new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(PUBLIC_DIR, "index.html"),

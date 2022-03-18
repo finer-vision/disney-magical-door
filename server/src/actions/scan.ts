@@ -10,6 +10,15 @@ import { currentTime } from "../utils";
 async function isWin(code: Code): Promise<boolean> {
   if (code.guaranteedWin) return true;
   const now = currentTime();
+  if (config.env === "development") {
+    const winTimeIndex = config.testWinTimes.findIndex((testWinTime) => {
+      return testWinTime.timestamp.getTime() <= now && !testWinTime.used;
+    });
+    if (winTimeIndex === -1) return false;
+    config.testWinTimes[winTimeIndex].used = true;
+    config.testWinTimes[winTimeIndex].usedAt = now;
+    return true;
+  }
   const winTime = await WinTime.findOne({
     where: {
       timestamp: {

@@ -50,9 +50,9 @@ export default function Admin() {
                 </tr>
               </thead>
               <tbody>
-                {winTimes.map((winTime) => {
+                {winTimes.map((winTime, index) => {
                   return (
-                    <tr key={winTime.id}>
+                    <tr key={index}>
                       <td>{formatTimestamp(winTime.timestamp)}</td>
                       <td>{winTime.used ? "Y" : "N"}</td>
                       <td>{formatTimestamp(winTime.usedAt) ?? "Never"}</td>
@@ -75,9 +75,9 @@ export default function Admin() {
                 </tr>
               </thead>
               <tbody>
-                {lastCodeScans.map((lastCodeScan) => {
+                {lastCodeScans.map((lastCodeScan, index) => {
                   return (
-                    <tr key={lastCodeScan.id}>
+                    <tr key={index}>
                       <td>{lastCodeScan.code}</td>
                       <td>{lastCodeScan.guaranteedWin ? "Y" : "N"}</td>
                       <td>{formatTimestamp(lastCodeScan.usedAt) ?? "Never"}</td>

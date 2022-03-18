@@ -1,4 +1,18 @@
+import { removeTimezoneOffset } from "./src/utils";
+
 export default {
+  testWinTimes: [
+    {
+      used: false,
+      timestamp: removeTimezoneOffset(new Date("2022-03-18T10:00:00")),
+      usedAt: null,
+    },
+    {
+      used: false,
+      timestamp: removeTimezoneOffset(new Date("2022-03-18T10:30:00")),
+      usedAt: null,
+    },
+  ],
   email: {
     preview: true,
     send: false,

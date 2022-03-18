@@ -2,6 +2,7 @@ import React from "react";
 import { AppReset, AppWrapper } from "@/components/app/styles";
 import Scan from "@/components/scan/scan";
 import Video from "@/components/video/video";
+import Debug from "@/components/debug/debug";
 import socket from "@/services/socket";
 import config from "@/config";
 
@@ -102,6 +103,7 @@ export default function App() {
     <React.Suspense fallback="Loading...">
       <AppReset />
       <AppWrapper>
+        {config.env === "development" && <Debug />}
         <audio ref={audioRef} />
         <Video
           src={`/assets/videos/${dayState}/${state}.mp4`}
