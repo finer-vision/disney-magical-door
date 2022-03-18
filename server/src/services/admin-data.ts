@@ -1,5 +1,6 @@
 import { Op } from "sequelize";
-import { endOfDay, startOfDay } from "date-fns";
+import { endOfDay, format, startOfDay } from "date-fns";
+import { uniqBy } from "lodash";
 import Code from "../entities/code";
 import WinTime from "../entities/win-time";
 import Win from "../entities/win";
@@ -8,14 +9,14 @@ import config from "../config";
 
 type Data = {
   winTimes: WinTime[];
-  lastCodeScans: (Code | Win)[];
+  lastCodeScans: any[];
 };
 
 export default async function adminData(): Promise<Data> {
   const now = currentTime();
   const dateRange: [Date, Date] = [startOfDay(now), endOfDay(now)];
 
-  let [winTimes, lastCodeScans] = await Promise.all([
+  let [winTimes, codes, wins] = await Promise.all([
     WinTime.findAll({
       where: { timestamp: { [Op.between]: dateRange } },
     }),
@@ -24,7 +25,28 @@ export default async function adminData(): Promise<Data> {
       order: [["usedAt", "desc"]],
       limit: 5,
     }),
+    Win.findAll({
+      where: { usedAt: { [Op.between]: dateRange } },
+      order: [["usedAt", "desc"]],
+      limit: 5,
+    }),
   ]);
+  // @ts-ignore
+  const lastCodeScans = uniqBy([...codes, ...wins], (item) => {
+    return format(item.usedAt, "Y-MM-dd HH:mm:ss");
+  })
+    .map((item) => {
+      item = item.toJSON();
+      return {
+        ...item,
+        // @ts-ignore
+        used: item.used ?? true,
+      };
+    })
+    .sort((a, b) => {
+      return new Date(b.usedAt).getTime() - new Date(a.usedAt).getTime();
+    })
+    .slice(0, 5);
 
   if (config.env === "development") {
     winTimes = config.testWinTimes.filter((testWinTime) => {
