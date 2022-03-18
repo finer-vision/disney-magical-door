@@ -13,6 +13,7 @@ type Code = {
   id: number;
   code: string;
   used: boolean;
+  winner: boolean;
   guaranteedWin: boolean;
   usedAt: string; // Date string
 };
@@ -71,7 +72,7 @@ export default function Debug() {
       <table>
         <thead>
           <tr>
-            <td>used</td>
+            <td>winner</td>
             <td>guaranteedWin</td>
             <td>code</td>
             <td>usedAt</td>
@@ -81,7 +82,7 @@ export default function Debug() {
           {lastCodeScans.map((lastCodeScan, index) => {
             return (
               <tr key={index}>
-                <td>{lastCodeScan.used ? "Y" : "N"}</td>
+                <td>{lastCodeScan.winner ? "Y" : "N"}</td>
                 <td>{lastCodeScan.guaranteedWin ? "Y" : "N"}</td>
                 <td>{lastCodeScan.code}</td>
                 <td>{new Date(lastCodeScan.usedAt).toLocaleString()}</td>

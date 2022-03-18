@@ -28,7 +28,7 @@ export default async function adminData(): Promise<Data> {
     Win.findAll({
       where: { usedAt: { [Op.between]: dateRange } },
       order: [["usedAt", "desc"]],
-      limit: 5,
+      limit: 20,
     }),
   ]);
   // @ts-ignore
@@ -36,11 +36,19 @@ export default async function adminData(): Promise<Data> {
     return format(item.usedAt, "Y-MM-dd HH:mm:ss");
   })
     .map((item) => {
-      item = item.toJSON();
+      const data = item.toJSON();
+      let winner: boolean;
+      if (item instanceof Win) {
+        winner = true;
+      } else if (item.guaranteedWin) {
+        winner = true;
+      } else {
+        winner = wins.find((win) => win.code === item.code) !== undefined;
+      }
       return {
-        ...item,
-        // @ts-ignore
-        used: item.used ?? true,
+        ...data,
+        used: data.used ?? true,
+        winner,
       };
     })
     .sort((a, b) => {
