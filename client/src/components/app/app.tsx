@@ -48,7 +48,7 @@ export default function App() {
       setState(state);
       const audio = audioRef.current;
       if (audio === null) return;
-      audio.src = `/assets/${state}.wav`;
+      audio.src = `/assets/sounds/${state}.wav`;
       audio.currentTime = 0;
       try {
         await audio.play();
