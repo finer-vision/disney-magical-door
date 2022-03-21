@@ -39,12 +39,9 @@ export default function App() {
 
   const audioRef = React.useRef<HTMLAudioElement>(null);
 
-  const endedTimeout = React.useRef<NodeJS.Timeout>();
-
   // Update client with state from server
   React.useEffect(() => {
     async function onData(data: { winner: boolean }) {
-      clearTimeout(endedTimeout.current);
       const state = data.winner ? State.winner : State.default;
       setState(state);
       const audio = audioRef.current;
@@ -72,21 +69,11 @@ export default function App() {
     setCode("");
   }, [code]);
 
-  // Go back to State.default winner video ended and
-  // after timeout expires
   const onEnded = React.useCallback(() => {
-    clearTimeout(endedTimeout.current);
-    if (state === State.winner) {
-      endedTimeout.current = setTimeout(() => {
-        setState(State.default);
-      }, config.winnerVideoHoldTimeout);
-    }
-  }, [state]);
-
-  React.useEffect(() => {
-    return () => {
-      clearTimeout(endedTimeout.current);
-    };
+    setState((state) => {
+      if (state === State.winner) return State.default;
+      return state;
+    });
   }, []);
 
   React.useEffect(() => {
