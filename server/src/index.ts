@@ -9,6 +9,7 @@ import { app, server, socket } from "./services/app";
 import config from "./config";
 import scan from "./actions/scan";
 import adminData from "./services/admin-data";
+import state from "./state";
 
 const EXECUTABLE_PATHS: { [key: string]: string } = {
   darwin: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
@@ -61,11 +62,17 @@ if (config.env === "development") {
         }
       });
       socket.on("scan", scan(socket));
+      socket.on("videoended", () => {
+        if (state.winVideoPlaying) {
+          state.winVideoPlaying = false;
+        }
+      });
     });
 
     console.log(`Server running at http://localhost:${config.server.port}`);
 
     if (config.openBrowser) {
+      await new Promise((resolve) => setTimeout(resolve, 5000));
       browser = await puppeteer.launch({
         headless: false,
         args,

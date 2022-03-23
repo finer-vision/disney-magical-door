@@ -6,6 +6,7 @@ import Win from "../entities/win";
 import Hardware from "../services/hardware";
 import config from "../config";
 import { currentTime } from "../utils";
+import state from "../state";
 
 async function isWin(code: Code): Promise<boolean> {
   if (code.guaranteedWin) return true;
@@ -42,6 +43,11 @@ let lastScanTimestamp = 0;
 
 export default function scan(socket: Socket) {
   return async (scan: Scan) => {
+    if (state.winVideoPlaying) {
+      console.warn("Win video is currently playing, ignoring scan");
+      return;
+    }
+
     const now = currentTime().getTime();
 
     // Prevent scan from firing multiple times
@@ -100,6 +106,7 @@ export default function scan(socket: Socket) {
       socket.emit("data", { winner });
 
       if (winner) {
+        state.winVideoPlaying = true;
         hardware.unlock();
         hardware.greenLight();
         await Win.create({

@@ -70,6 +70,7 @@ export default function App() {
   }, [code]);
 
   const onEnded = React.useCallback(() => {
+    socket.emit("videoended");
     setState((state) => {
       if (state === State.winner) return State.default;
       return state;

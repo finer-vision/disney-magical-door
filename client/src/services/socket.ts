@@ -1,7 +1,9 @@
 import io from "socket.io-client";
 import config from "../config";
 
-const socket = io(`http://localhost:${config.server.port}`, {
+const host = window.location.host.split(":")[0];
+
+const socket = io(`http://${host}:${config.server.port}`, {
   autoConnect: false,
 });
 
