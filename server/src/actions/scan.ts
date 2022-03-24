@@ -107,6 +107,11 @@ export default function scan(socket: Socket) {
 
       if (winner) {
         state.winVideoPlaying = true;
+        setTimeout(() => {
+          if (state.winVideoPlaying) {
+            state.winVideoPlaying = false;
+          }
+        }, config.winVideoDuration);
         hardware.unlock();
         hardware.greenLight();
         await Win.create({

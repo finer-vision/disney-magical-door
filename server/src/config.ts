@@ -88,6 +88,7 @@ const config = {
   endOfDayReportTimeout: 15 * 60 * 1000,
   delayBetweenScans: 5000,
   openBrowser: env.openBrowser,
+  winVideoDuration: 73024,
 };
 
 export default config;
