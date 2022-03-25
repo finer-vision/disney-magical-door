@@ -4,7 +4,8 @@
     "start": "NODE_ENV=development nodemon --watch env.ts --watch src src/index.ts",
     "build": "NODE_ENV=production webpack --mode production",
     "reset": "ts-node src/services/cli/cli.ts reset",
-    "generateQrCodeImages": "ts-node src/services/cli/cli.ts generateQrCodeImages"
+    "generateQrCodeImages": "ts-node src/services/cli/cli.ts generateQrCodeImages",
+    "generateRandomWinTimesForTestEvents": "ts-node src/services/cli/cli.ts generateRandomWinTimesForTestEvents"
   },
   "devDependencies": {
     "@types/email-templates": "^8.0.4",

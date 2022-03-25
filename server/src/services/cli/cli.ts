@@ -1,5 +1,6 @@
 import reset from "./reset";
 import generateQrCodeImages from "./generate-qr-code-images";
+import generateRandomWinTimesForTestEvents from "./generate-random-win-times-for-test-events";
 
 (async () => {
   try {
@@ -10,6 +11,9 @@ import generateQrCodeImages from "./generate-qr-code-images";
         break;
       case "generateQrCodeImages":
         await generateQrCodeImages();
+        break;
+      case "generateRandomWinTimesForTestEvents":
+        await generateRandomWinTimesForTestEvents();
         break;
       default:
         console.error(`No command found "${command}"`);

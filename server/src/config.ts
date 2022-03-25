@@ -54,9 +54,10 @@ const config = {
   },
   events: [
     {
-      start: removeTimezoneOffset(new Date("2022-04-07T10:00:00")),
-      end: removeTimezoneOffset(new Date("2022-04-07T22:00:00")),
+      start: removeTimezoneOffset(new Date("2022-03-25T10:00:00")),
+      end: removeTimezoneOffset(new Date("2022-03-25T11:00:00")),
       maxWinners: 7,
+      isTest: true,
     },
     {
       start: removeTimezoneOffset(new Date("2022-04-09T08:00:00")),
