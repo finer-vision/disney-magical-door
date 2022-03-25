@@ -60,6 +60,11 @@ const config = {
       isTest: true,
     },
     {
+      start: removeTimezoneOffset(new Date("2022-04-07T10:00:00")),
+      end: removeTimezoneOffset(new Date("2022-04-07T22:00:00")),
+      maxWinners: 7,
+    },
+    {
       start: removeTimezoneOffset(new Date("2022-04-09T08:00:00")),
       end: removeTimezoneOffset(new Date("2022-04-09T20:00:00")),
       maxWinners: 7,
