@@ -33,7 +33,9 @@ function getDayState(): DayState {
 }
 
 export default function App() {
-  const [dayState, setDayState] = React.useState<DayState>(getDayState);
+  const dayStateRef = React.useRef<DayState>(getDayState());
+  const stateRef = React.useRef<State>(State.default);
+
   const [code, setCode] = React.useState("");
 
   const audioRef = React.useRef<HTMLAudioElement>(null);
@@ -44,7 +46,7 @@ export default function App() {
     const audio = audioRef.current;
     const video = videoRef.current;
     if (video === null) return;
-    video.src = `/assets/videos/${dayState}/${State.default}.mp4`;
+    video.src = `/assets/videos/${dayStateRef.current}/${stateRef.current}.mp4`;
     video.currentTime = 0;
     video.loop = true;
     video.play().catch((err) => {
@@ -56,9 +58,10 @@ export default function App() {
       const state = data.winner ? State.winner : State.default;
       audio.src = `/assets/sounds/${state}.wav`;
       audio.currentTime = 0;
-      video.src = `/assets/videos/${dayState}/${state}.mp4`;
+      video.src = `/assets/videos/${dayStateRef.current}/${state}.mp4`;
       video.currentTime = 0;
       video.loop = state === State.default;
+      stateRef.current = state;
       try {
         await audio.play();
       } catch (err) {
@@ -76,7 +79,7 @@ export default function App() {
     return () => {
       socket.off("data", onData);
     };
-  }, [dayState]);
+  }, []);
 
   // Send scanned code to server and reset client code
   React.useEffect(() => {
@@ -87,9 +90,16 @@ export default function App() {
 
   const onEnded = React.useCallback(() => {
     socket.emit("videoended");
-    setState((state) => {
-      if (state === State.winner) return State.default;
-      return state;
+    const video = videoRef.current;
+    if (video === null) return;
+    if (stateRef.current === State.winner) {
+      stateRef.current = State.default;
+    }
+    video.src = `/assets/videos/${dayStateRef.current}/${stateRef.current}.mp4`;
+    video.currentTime = 0;
+    video.loop = true;
+    video.play().catch((err) => {
+      console.error(err);
     });
   }, []);
 
@@ -98,7 +108,7 @@ export default function App() {
     (function updateDayState() {
       clearTimeout(timeout);
       timeout = setTimeout(updateDayState, 1000);
-      setDayState(getDayState());
+      dayStateRef.current = getDayState();
     })();
     return () => clearTimeout(timeout);
   }, []);
