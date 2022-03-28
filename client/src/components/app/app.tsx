@@ -35,9 +35,6 @@ function getDayState(): DayState {
 export default function App() {
   const dayStateRef = React.useRef<DayState>(getDayState());
   const stateRef = React.useRef<State>(State.default);
-
-  const [code, setCode] = React.useState("");
-
   const audioRef = React.useRef<HTMLAudioElement>(null);
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
@@ -87,13 +84,6 @@ export default function App() {
     };
   }, []);
 
-  // Send scanned code to server and reset client code
-  React.useEffect(() => {
-    if (code === "") return;
-    socket.emit("scan", { code });
-    setCode("");
-  }, [code]);
-
   const onEnded = React.useCallback(() => {
     socket.emit("videoended");
     const video = videoRef.current;
@@ -126,7 +116,13 @@ export default function App() {
         {config.env === "development" && <Debug />}
         <audio ref={audioRef} />
         <Video ref={videoRef} onEnded={onEnded} />
-        <Scan onScan={setCode} />
+        <Scan
+          onScan={(code) => {
+            // Send scanned code to server and reset client code
+            if (code === "") return;
+            socket.emit("scan", { code });
+          }}
+        />
       </AppWrapper>
     </React.Suspense>
   );
