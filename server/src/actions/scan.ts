@@ -67,6 +67,7 @@ export default function scan(socket: Socket) {
             hardware.lock();
             hardware.blueLight();
             socket.emit("data", { winner: false, admin: true });
+            state.winVideoPlaying = false;
             break;
           case "open-door":
             hardware.unlock();
