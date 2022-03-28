@@ -3,24 +3,25 @@ import { VideoWrapper } from "@/components/video/styles";
 import { useAppState } from "@/state/app-state";
 
 type Props = {
-  src: string;
-  loop: boolean;
   onEnded: () => void;
 };
 
-export default function Video({ src, loop, onEnded }: Props) {
+export default React.forwardRef(function Video(
+  { onEnded }: Props,
+  ref: React.ForwardedRef<HTMLVideoElement>
+) {
   const { interacted } = useAppState();
 
   return (
     <VideoWrapper>
       <video
-        src={src}
+        ref={ref}
+        src="/assets/videos/day/default.mp4"
         muted={!interacted}
         autoPlay
         playsInline
-        loop={loop}
         onEnded={onEnded}
       />
     </VideoWrapper>
   );
-}
+});

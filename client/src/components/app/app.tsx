@@ -34,22 +34,38 @@ function getDayState(): DayState {
 
 export default function App() {
   const [dayState, setDayState] = React.useState<DayState>(getDayState);
-  const [state, setState] = React.useState<State>(State.default);
   const [code, setCode] = React.useState("");
 
   const audioRef = React.useRef<HTMLAudioElement>(null);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
 
   // Update client with state from server
   React.useEffect(() => {
+    const audio = audioRef.current;
+    const video = videoRef.current;
+    if (video === null) return;
+    video.src = `/assets/videos/${dayState}/${State.default}.mp4`;
+    video.currentTime = 0;
+    video.loop = true;
+    video.play().catch((err) => {
+      console.error(err);
+    });
+
     async function onData(data: { winner: boolean }) {
+      if (audio === null || video === null) return;
       const state = data.winner ? State.winner : State.default;
-      setState(state);
-      const audio = audioRef.current;
-      if (audio === null) return;
       audio.src = `/assets/sounds/${state}.wav`;
       audio.currentTime = 0;
+      video.src = `/assets/videos/${dayState}/${state}.mp4`;
+      video.currentTime = 0;
+      video.loop = state === State.default;
       try {
         await audio.play();
+      } catch (err) {
+        console.error(err);
+      }
+      try {
+        await video.play();
       } catch (err) {
         console.error(err);
       }
@@ -60,7 +76,7 @@ export default function App() {
     return () => {
       socket.off("data", onData);
     };
-  }, []);
+  }, [dayState]);
 
   // Send scanned code to server and reset client code
   React.useEffect(() => {
@@ -93,11 +109,7 @@ export default function App() {
       <AppWrapper>
         {config.env === "development" && <Debug />}
         <audio ref={audioRef} />
-        <Video
-          src={`/assets/videos/${dayState}/${state}.mp4`}
-          loop={state === State.default}
-          onEnded={onEnded}
-        />
+        <Video ref={videoRef} onEnded={onEnded} />
         <Scan onScan={setCode} />
       </AppWrapper>
     </React.Suspense>
