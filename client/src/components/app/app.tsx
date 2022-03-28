@@ -63,7 +63,7 @@ export default function App() {
       }
       video.loop = state === State.default;
       stateRef.current = state;
-      if (data.admin) {
+      if (!data.admin) {
         try {
           await audio.play();
         } catch (err) {
