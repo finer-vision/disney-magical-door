@@ -44,6 +44,12 @@ let lastScanTimestamp = 0;
 export default function scan(socket: Socket) {
   return async (scan: Scan) => {
     try {
+      const now = currentTime().getTime();
+
+      // Prevent scan from firing multiple times
+      if (now < lastScanTimestamp + config.delayBetweenScans) return;
+      lastScanTimestamp = now;
+
       const adminCode = config.adminCodes.find((adminCode) => {
         return adminCode.code === scan.code;
       });
@@ -70,12 +76,6 @@ export default function scan(socket: Socket) {
         );
         return;
       }
-
-      const now = currentTime().getTime();
-
-      // Prevent scan from firing multiple times
-      if (now < lastScanTimestamp + config.delayBetweenScans) return;
-      lastScanTimestamp = now;
 
       const matchingCode = await Code.findOne({
         where: {
