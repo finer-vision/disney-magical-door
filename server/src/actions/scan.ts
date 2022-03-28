@@ -43,19 +43,6 @@ let lastScanTimestamp = 0;
 
 export default function scan(socket: Socket) {
   return async (scan: Scan) => {
-    if (state.winVideoPlaying) {
-      console.warn(
-        `[${new Date().toLocaleTimeString()}] Win video is currently playing, ignoring scan`
-      );
-      return;
-    }
-
-    const now = currentTime().getTime();
-
-    // Prevent scan from firing multiple times
-    if (now < lastScanTimestamp + config.delayBetweenScans) return;
-    lastScanTimestamp = now;
-
     try {
       const adminCode = config.adminCodes.find((adminCode) => {
         return adminCode.code === scan.code;
@@ -76,6 +63,19 @@ export default function scan(socket: Socket) {
         }
         return;
       }
+
+      if (state.winVideoPlaying) {
+        console.warn(
+          `[${new Date().toLocaleTimeString()}] Win video is currently playing, ignoring scan`
+        );
+        return;
+      }
+
+      const now = currentTime().getTime();
+
+      // Prevent scan from firing multiple times
+      if (now < lastScanTimestamp + config.delayBetweenScans) return;
+      lastScanTimestamp = now;
 
       const matchingCode = await Code.findOne({
         where: {
@@ -100,8 +100,6 @@ export default function scan(socket: Socket) {
         hardware.redLight();
         return;
       }
-
-      const now = currentTime();
 
       // Valid code used
       const winner = await isWin(matchingCode);
