@@ -28,6 +28,7 @@ const args = [
   "--no-default-check",
   "--overscroll-history-navigation=0",
   `--app=http://localhost:${PORT}`,
+  "--autoplay-policy=no-user-gesture-required",
 ];
 
 if (config.env === "production") {
