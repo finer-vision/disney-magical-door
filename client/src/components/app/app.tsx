@@ -56,8 +56,10 @@ export default function App() {
     async function onData(data: { winner: boolean; admin?: boolean }) {
       if (audio === null || video === null) return;
       const state = data.winner ? State.winner : State.default;
-      audio.src = `/assets/sounds/${state}.wav`;
-      audio.currentTime = 0;
+      if (!data.admin) {
+        audio.src = `/assets/sounds/${state}.wav`;
+        audio.currentTime = 0;
+      }
       video.src = `/assets/videos/${dayStateRef.current}/${state}.mp4`;
       if (state !== stateRef.current) {
         video.currentTime = 0;
