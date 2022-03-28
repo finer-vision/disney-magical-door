@@ -53,7 +53,7 @@ export default function App() {
       console.error(err);
     });
 
-    async function onData(data: { winner: boolean }) {
+    async function onData(data: { winner: boolean; admin?: boolean }) {
       if (audio === null || video === null) return;
       const state = data.winner ? State.winner : State.default;
       audio.src = `/assets/sounds/${state}.wav`;
@@ -64,10 +64,12 @@ export default function App() {
       }
       video.loop = state === State.default;
       stateRef.current = state;
-      try {
-        await audio.play();
-      } catch (err) {
-        console.error(err);
+      if (data.admin) {
+        try {
+          await audio.play();
+        } catch (err) {
+          console.error(err);
+        }
       }
       try {
         await video.play();

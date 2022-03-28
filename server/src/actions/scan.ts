@@ -66,7 +66,7 @@ export default function scan(socket: Socket) {
           case "reset-door":
             hardware.lock();
             hardware.blueLight();
-            socket.emit("data", { winner: false });
+            socket.emit("data", { winner: false, admin: true });
             break;
           case "open-door":
             hardware.unlock();
