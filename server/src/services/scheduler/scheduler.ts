@@ -44,7 +44,7 @@ export default function scheduler() {
 
   cron.schedule("*/1 * * * *", async () => {
     const now = currentTime();
-    console.log("run");
+    console.log(`[${new Date().toLocaleTimeString()}] cron`);
     if (now.getTime() >= sendEndOfDayReportDate.getTime()) {
       await sendEndOfDayReport();
     }

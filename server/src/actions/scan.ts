@@ -44,7 +44,9 @@ let lastScanTimestamp = 0;
 export default function scan(socket: Socket) {
   return async (scan: Scan) => {
     if (state.winVideoPlaying) {
-      console.warn("Win video is currently playing, ignoring scan");
+      console.warn(
+        `[${new Date().toLocaleTimeString()}] Win video is currently playing, ignoring scan`
+      );
       return;
     }
 
