@@ -59,7 +59,9 @@ export default function App() {
       audio.src = `/assets/sounds/${state}.wav`;
       audio.currentTime = 0;
       video.src = `/assets/videos/${dayStateRef.current}/${state}.mp4`;
-      video.currentTime = 0;
+      if (state !== stateRef.current) {
+        video.currentTime = 0;
+      }
       video.loop = state === State.default;
       stateRef.current = state;
       try {
