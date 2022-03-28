@@ -105,6 +105,9 @@ export default function scan(socket: Socket) {
       const winner = await isWin(matchingCode);
       await matchingCode.update({ used: true, usedAt: now });
       socket.emit("data", { winner });
+      if (!winner) {
+        hardware.redLight();
+      }
 
       if (winner) {
         state.winVideoPlaying = true;
