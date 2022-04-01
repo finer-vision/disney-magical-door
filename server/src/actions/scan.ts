@@ -8,6 +8,28 @@ import config from "../config";
 import { currentTime } from "../utils";
 import state from "../state";
 
+const blacklistedCodes = [
+  "172e64d8be537ca0",
+  "025aeda1a926da08",
+  "7935d99e65268d97",
+  "df0e81c338e58f88",
+  "979fbaf2e3c90b4d",
+  "dc2bfff781c952c1",
+  "e9074975a92b8bae",
+  "fbd548233591e329",
+  "ba4daf525d3dd885",
+  "731c27381420191b",
+  "9fc4868e97b96be2",
+  "44b8a31b6747fc0d",
+  "f8b9e65f8677f09e",
+  "4586f83c737fd33f",
+  "7b30d6e0178fda0a",
+  "cc437d4a94a1e2d4",
+  "7a75890237222257",
+  "54cc884365acaa7b",
+  "8929b5954364e726",
+];
+
 async function isWin(code: Code): Promise<boolean> {
   if (code.guaranteedWin) return true;
   const now = currentTime();
@@ -74,6 +96,13 @@ export default function scan(socket: Socket) {
         console.warn(
           `[${new Date().toLocaleTimeString()}] Win video is currently playing, ignoring scan`
         );
+        return;
+      }
+
+      if (blacklistedCodes.includes(scan.code)) {
+        socket.emit("data", { winner: false });
+        hardware.lock();
+        hardware.redLight();
         return;
       }
 
