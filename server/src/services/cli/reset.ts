@@ -40,7 +40,7 @@ async function importWinTimes() {
 
   await WinTime.bulkCreate(
     winTimes.map((timestamp) => {
-      return { timestamp: new Date(timestamp) };
+      return { timestamp };
     })
   );
 
