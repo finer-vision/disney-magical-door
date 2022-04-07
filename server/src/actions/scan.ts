@@ -5,10 +5,11 @@ import WinTime from "../entities/win-time";
 import Win from "../entities/win";
 import Hardware from "../services/hardware";
 import config from "../config";
+import { currentTime } from "../utils";
 
 async function isWin(code: Code): Promise<boolean> {
   if (code.guaranteedWin) return true;
-  const now = new Date();
+  const now = currentTime();
   const winTime = await WinTime.findOne({
     where: {
       timestamp: {
@@ -32,7 +33,7 @@ let lastScanTimestamp = 0;
 
 export default function scan(socket: Socket) {
   return async (scan: Scan) => {
-    const now = Date.now();
+    const now = currentTime().getTime();
 
     // Prevent scan from firing multiple times
     if (now < lastScanTimestamp + config.delayBetweenScans) return;
@@ -82,7 +83,7 @@ export default function scan(socket: Socket) {
         return;
       }
 
-      const now = new Date();
+      const now = currentTime();
 
       // Valid code used
       const winner = await isWin(matchingCode);

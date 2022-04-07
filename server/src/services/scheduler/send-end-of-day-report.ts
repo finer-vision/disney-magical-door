@@ -5,10 +5,11 @@ import Report from "../../entities/report";
 import Win from "../../entities/win";
 import email from "../email";
 import config from "../../config";
+import { currentTime } from "../../utils";
 
 export default async function sendEndOfDayReport() {
   try {
-    const now = new Date();
+    const now = currentTime();
     const dateRange: [Date, Date] = [startOfDay(now), endOfDay(now)];
     const report = await Report.findOne({
       where: { createdAt: { [Op.between]: dateRange } },
@@ -16,7 +17,7 @@ export default async function sendEndOfDayReport() {
     // Exit early if report has already been sent today
     if (report !== null) return;
     console.info("Sending end of day report...");
-    await Report.create({});
+    await Report.create({ createdAt: now, updatedAt: now });
 
     const winners = await Win.findAll({
       where: { usedAt: { [Op.between]: dateRange } },

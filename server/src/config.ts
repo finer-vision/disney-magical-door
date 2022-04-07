@@ -5,6 +5,7 @@ import Code from "./entities/code";
 import WinTime from "./entities/win-time";
 import Win from "./entities/win";
 import Report from "./entities/report";
+import { removeTimezoneOffset } from "./utils";
 
 const rootPath = path.resolve(__dirname, "..", "..");
 
@@ -52,23 +53,23 @@ const config = {
   },
   events: [
     {
-      start: new Date("2022-04-07T10:00:00"),
-      end: new Date("2022-04-07T22:00:00"),
+      start: removeTimezoneOffset(new Date("2022-04-07T10:00:00")),
+      end: removeTimezoneOffset(new Date("2022-04-07T22:00:00")),
       maxWinners: 7,
     },
     {
-      start: new Date("2022-04-09T08:00:00"),
-      end: new Date("2022-04-09T20:00:00"),
+      start: removeTimezoneOffset(new Date("2022-04-09T08:00:00")),
+      end: removeTimezoneOffset(new Date("2022-04-09T20:00:00")),
       maxWinners: 7,
     },
     {
-      start: new Date("2022-04-12T08:00:00"),
-      end: new Date("2022-04-12T20:00:00"),
+      start: removeTimezoneOffset(new Date("2022-04-12T08:00:00")),
+      end: removeTimezoneOffset(new Date("2022-04-12T20:00:00")),
       maxWinners: 7,
     },
     {
-      start: new Date("2022-04-13T08:00:00"),
-      end: new Date("2022-04-13T20:00:00"),
+      start: removeTimezoneOffset(new Date("2022-04-13T08:00:00")),
+      end: removeTimezoneOffset(new Date("2022-04-13T20:00:00")),
       maxWinners: 7,
     },
   ],

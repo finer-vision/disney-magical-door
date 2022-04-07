@@ -3,9 +3,10 @@ import { closestTo } from "date-fns";
 import sendEndOfDayReport from "./send-end-of-day-report";
 import { Event } from "../../types";
 import config from "../../config";
+import { currentTime } from "../../utils";
 
 export default function scheduler() {
-  const now = new Date();
+  const now = currentTime();
   const eventDatesAscending = config.events
     .map((event) => {
       return [event.start, event.end];
@@ -22,7 +23,7 @@ export default function scheduler() {
 
   function isEventHappening(event?: Event): boolean {
     if (event === undefined) return false;
-    const now = new Date();
+    const now = currentTime();
     const nowInMs = now.getTime();
     const hourInMs = 3600 * 1000;
     return (
@@ -36,13 +37,13 @@ export default function scheduler() {
     return;
   }
 
-  const sendEndOfDayReportDate = new Date(closestEvent.end);
+  const sendEndOfDayReportDate = closestEvent.end;
   sendEndOfDayReportDate.setTime(
     sendEndOfDayReportDate.getTime() + config.endOfDayReportTimeout
   );
 
-  cron.schedule("*/5 * * * *", async () => {
-    const now = new Date();
+  cron.schedule("*/1 * * * *", async () => {
+    const now = currentTime();
     console.log("run");
     if (now.getTime() >= sendEndOfDayReportDate.getTime()) {
       await sendEndOfDayReport();

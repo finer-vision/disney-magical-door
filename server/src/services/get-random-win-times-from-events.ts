@@ -1,5 +1,6 @@
 import * as crypto from "node:crypto";
 import { Event } from "../types";
+import { currentTime } from "../utils";
 
 export default function getRandomWinTimesFromEvents(events: Event[]) {
   const winTimes: Date[] = [];
@@ -21,7 +22,7 @@ export default function getRandomWinTimesFromEvents(events: Event[]) {
         intervalRangeInMs[0],
         intervalRangeInMs[1]
       );
-      const winTime = new Date();
+      const winTime = currentTime();
       winTime.setTime(randomWinTimeInMs);
       winTimes.push(winTime);
     }

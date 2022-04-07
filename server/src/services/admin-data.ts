@@ -3,6 +3,7 @@ import { endOfDay, startOfDay } from "date-fns";
 import Code from "../entities/code";
 import WinTime from "../entities/win-time";
 import Win from "../entities/win";
+import { currentTime } from "../utils";
 
 type Data = {
   winTimes: WinTime[];
@@ -10,7 +11,7 @@ type Data = {
 };
 
 export default async function adminData(): Promise<Data> {
-  const now = new Date();
+  const now = currentTime();
   const dateRange: [Date, Date] = [startOfDay(now), endOfDay(now)];
 
   const [winTimes, lastCodeScans, wins] = await Promise.all([
