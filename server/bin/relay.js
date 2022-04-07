@@ -1,6 +1,6 @@
 const { Board, Relay } = require("johnny-five");
 
-const board = new Board();
+const board = new Board({ repl: false });
 
 board.on("ready", () => {
   const relay = new Relay(10);
