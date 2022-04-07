@@ -12,3 +12,7 @@ board.on("ready", () => {
 board.on("data", (data) => {
   console.log(data);
 });
+
+board.on("info", (event) => {
+  console.log("%s sent an 'info' message: %s", event.class, event.message);
+});
