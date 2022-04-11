@@ -125,6 +125,7 @@ export default function scan(socket: Socket) {
       // Invalid code used
       if (!matchingCode) {
         socket.emit("data", { winner: false });
+        console.log("info: hardware.lock");
         hardware.lock();
         hardware.redLight();
         return;
@@ -145,6 +146,7 @@ export default function scan(socket: Socket) {
             state.winVideoPlaying = false;
           }
         }, config.winVideoDuration);
+        console.log("info: hardware.unlock");
         hardware.unlock();
         hardware.greenLight();
         await Win.create({
