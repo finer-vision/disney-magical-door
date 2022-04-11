@@ -21,7 +21,7 @@ export default class Hardware {
 
   constructor() {
     this.board.on("ready", () => {
-      this.relay = new Relay(10);
+      this.relay = new Relay({ pin: 10, type: "NO" });
       this.rgb = [new Led(4), new Led(5), new Led(6)];
       this.locked = !this.relay.isOn;
       if (this.locked) {
