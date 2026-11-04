@@ -33,7 +33,7 @@
     "csv-stringify": "^6.0.5",
     "date-fns": "^2.28.0",
     "email-templates": "^8.0.10",
-    "express": "^4.17.3",
+    "express": "^4.22.3",
     "firmata": "^2.3.0",
     "johnny-five": "^2.1.0",
     "lodash": "^4.17.21",
